@@ -1,0 +1,262 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: "Poppins", sans-serif;
+    min-height: 100vh;
+    color: white;
+    background-image:
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
+        url("/static/images/background-main1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+.dashboard{
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar{
+    width: 250px;
+    padding: 2rem;
+    background-color: rgba(5,8,16,0.75);
+    border-right: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(14px);
+}
+
+.logo-icon{
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background-color: #efb638;
+    color: #061014;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.brand{
+    margin-bottom: 4rem;
+}
+
+.brand h2{
+    font-size: 1.8rem;
+    font-family: Georgia, serif;
+}
+
+.brand span{
+    color: #efb638;
+}
+
+.sidebar nav{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sidebar nav a{
+    text-decoration: none;
+    color: white;
+    padding: 1rem 1.2rem;
+    border-radius: 1rem;
+    transition: 0.3s;
+}
+
+.sidebar nav a:hover,
+.sidebar nav .active{
+    background-color: rgba(239,182,56,0.15);
+    color: #efb638;
+}
+
+.logout{
+    color: #ff6b8a !important;
+}
+
+.main-content{
+    flex: 1;
+    padding: 3rem;
+}
+
+.welcome-box,
+.create-section,
+.saved-section{
+    background-color: rgba(20,20,20,0.58);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(12px);
+}
+
+.welcome-box h1{
+    color: #efb638;
+    font-size: 3.2rem;
+    font-family: Georgia, serif;
+    margin-bottom: 1rem;
+}
+
+.welcome-box p,
+.create-section p,
+.empty-room p{
+    color: #d4d4d4;
+    line-height: 1.7;
+}
+
+.create-section h2,
+.saved-section h2{
+    font-size: 2.2rem;
+    color: white;
+    margin-bottom: 0.7rem;
+}
+
+.room-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.room-card{
+    padding: 2rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.room-card:hover{
+    transform: translateY(-8px);
+}
+
+.room-card span{
+    font-size: 3rem;
+}
+
+.room-card h3{
+    margin: 1rem 0;
+    font-size: 1.5rem;
+}
+
+.room-card button{
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: 1rem;
+    background-color: white;
+    color: #061014;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.bedroom{
+    background: linear-gradient(135deg, #6d28d9, #312e81);
+}
+
+.bathroom{
+    background: linear-gradient(135deg, #2563eb, #0f172a);
+}
+
+.living{
+    background: linear-gradient(135deg, #db2777, #581c87);
+}
+
+.kitchen{
+    background: linear-gradient(135deg, #f59e0b, #78350f);
+}
+
+.saved-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.empty-room{
+    background-color: rgba(255,255,255,0.06);
+    border-radius: 1.5rem;
+    padding: 3rem;
+    text-align: center;
+}
+
+.empty-room span{
+    font-size: 3rem;
+    color: #efb638;
+}
+
+.empty-room h3{
+    margin: 1rem 0;
+}
+
+@media(max-width: 950px){
+    .dashboard{
+        flex-direction: column;
+    }
+
+    .sidebar{
+        width: 100%;
+    }
+
+    .room-grid,
+    .saved-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .welcome-box h1{
+        font-size: 2.3rem;
+    }
+}
+
+.profile-section{
+    background-color: rgba(20,20,20,0.58);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(12px);
+}
+
+.profile-section h2{
+    font-size: 2.2rem;
+    color: #efb638;
+    margin-bottom: 0.7rem;
+}
+
+.profile-section p{
+    color: #d4d4d4;
+    margin-bottom: 2rem;
+}
+
+#profileForm{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#profileForm input{
+    padding: 1rem;
+    border: none;
+    border-radius: 0.8rem;
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+    font-size: 1rem;
+}
+
+#profileForm button{
+    padding: 1rem;
+    border: none;
+    border-radius: 0.8rem;
+    background-color: #efb638;
+    color: #061014;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.hidden{
+    display: none;
+}

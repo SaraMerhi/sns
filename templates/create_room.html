@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create {{ room_title }} | SNS Roomify</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/create-room.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="editor-page" data-room="{{ room_name }}">
+
+    <aside class="furniture-panel">
+        <div class="panel-title">
+            <h2>Furniture</h2>
+            <a href="/user-dashboard">×</a>
+        </div>
+
+        <div id="furnitureList"></div>
+    </aside>
+
+    <main class="design-area">
+
+        <div class="editor-top">
+            <div class="view-tabs">
+          <button id="nextBtn">Next</button>
+            </div>
+
+            <h1>Create Your Own {{ room_title }}</h1>
+
+            <div class="tools">
+                <button id="clearBtn">Clear</button>
+                <button id="saveBtn">Save</button>
+            </div>
+        </div>
+
+        <div class="room-wrapper">
+            <div class="room" id="roomBox">
+
+                <div class="wall wall-top" id="topWall"></div>
+                <div class="wall wall-left" id="leftWall"></div>
+                <div class="wall wall-right" id="rightWall"></div>
+                <div class="wall wall-bottom" id="bottomWall"></div>
+
+                <div class="floor" id="floorArea"></div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <aside class="customize-panel">
+        <h2>Customize</h2>
+
+        <div class="control-group">
+            <h3>Wall Colors</h3>
+
+            <label>Top Wall</label>
+            <input type="color" id="topWallColor" value="#e8dfd2">
+
+            <label>Left Wall</label>
+            <input type="color" id="leftWallColor" value="#d8cec0">
+
+            <label>Right Wall</label>
+            <input type="color" id="rightWallColor" value="#d8cec0">
+
+            <label>Bottom Wall</label>
+            <input type="color" id="bottomWallColor" value="#2b2b2b">
+        </div>
+
+        <div class="control-group">
+            <h3>Flooring</h3>
+
+            <label>Floor Color</label>
+            <input type="color" id="floorColor" value="#c7a77c">
+        </div>
+
+        <p class="hint">
+            Drag furniture into the room. Double click furniture to remove it.
+        </p>
+    </aside>
+
+</div>
+
+<script>
+    const roomName = "{{ room_name }}";
+</script>
+
+<script src="{{ url_for('static', filename='js/create-room.js') }}"></script>
+
+</body>
+</html>

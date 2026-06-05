@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNS Roomify</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="hero" id="home">
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <div class="logo-icon">SNS</div>
+            <span>SNS Roomify</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#styles">Style</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#showcase">Showcase</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <a href="/signin" class="signin">Sign in</a>
+
+    </nav>
+
+    <section class="hero-content">
+
+        <h1>
+            Reimagine every <br>
+            <span>room</span> in seconds
+        </h1>
+
+        <p>
+            SNS Roomify helps you design beautiful interiors
+            with luxury modern styles and creative room ideas
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="/signin" class="main-btn">
+                ▦ Create your own room
+            </a>
+
+            <a href="#showcase" class="link-btn">
+                See showcase →
+            </a>
+
+        </div>
+
+    </section>
+
+</header>
+
+<section class="cards-section" id="styles">
+
+    <h2>Find inspiration for your perfect room</h2>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <img src="{{ url_for('static', filename='images/modernstyle.jpg') }}" alt="Modern Room">
+
+            <h3>Modern</h3>
+
+            <p>
+                Clean lines, elegant furniture, and modern decoration
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <img src="{{ url_for('static', filename='images/luxurystyle.jpg') }}" alt="Luxury Room">
+
+            <h3>Luxury</h3>
+
+            <p>
+                Dark aesthetics, gold details, and premium atmosphere
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <img src="{{ url_for('static', filename='images/minimalstyle.jpg') }}" alt="Minimal Room">
+
+            <h3>Minimal</h3>
+
+            <p>
+                Calm and simple spaces with beautiful minimalist design
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="features-section" id="features">
+
+    <h2>Website Features</h2>
+
+    <div class="feature-cards">
+
+        <div class="feature-card">
+            <h3>User Account</h3>
+            <p>Create an account and access your personal room designs</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Save Rooms</h3>
+            <p>Save your favorite room ideas and return to them later</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Drag Furniture</h3>
+            <p>Move furniture items to organize your room layout</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Change Colors</h3>
+            <p>Try different wall and furniture colors before choosing</p>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="showcase-section" id="showcase">
+
+    <p class="section-label">SHOWCASE</p>
+
+    <h2>
+        Before, <span>after</span>, magic
+    </h2>
+
+    <p class="showcase-text">
+        See how SNS Roomify can transform an ordinary living room into a modern and cozy space
+    </p>
+
+    <div class="showcase-images">
+
+        <div class="showcase-card">
+
+            <span>Before</span>
+
+            <img src="{{ url_for('static', filename='images/before.png') }}" alt="Before Room">
+
+        </div>
+
+        <div class="showcase-card">
+
+            <span>After</span>
+
+            <img src="{{ url_for('static', filename='images/after.png') }}" alt="After Room">
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="about-section" id="about">
+
+    <div class="about-container">
+
+        <h2>About SNS Roomify</h2>
+
+        <p>
+            SNS Roomify is a virtual interior design website created to help users
+            explore room ideas, discover different styles, and get inspiration for
+            designing their own spaces in a simple and elegant way
+        </p>
+
+        <p>
+            Our goal is to make interior design easier, more creative, and more
+            accessible by combining beautiful visuals with a user-friendly website
+        </p>
+
+        <div class="creators">
+
+            <h3>The Creative Minds Behind SNS Roomify</h3>
+
+            <p>
+                Sara Akaamish · Nourhan Atwi · Sara Merhi
+            </p>
+
+        </div>
+
+        <div id="contact"></div>
+
+        <p class="contact-intro">
+            Have questions or want to start designing your dream space?
+            Feel free to contact the SNS Roomify team anytime
+        </p>
+
+        <div class="about-contact">
+
+            <a href="mailto:shm308@usal.edu.lb" class="about-info">
+                <span>📧</span>
+                <p>shm308@usal.edu.lb</p>
+            </a>
+
+            <a href="tel:+96181603228" class="about-info">
+                <span>📞</span>
+                <p>81 603 228</p>
+            </a>
+
+            <a href="tel:+96170944104" class="about-info">
+                <span>📞</span>
+                <p>70 944 104</p>
+            </a>
+
+            <a href="https://maps.google.com/?q=USAL+Old+Airport+Road+Ghobeiry" target="_blank" class="about-info">
+                <span>📍</span>
+                <p>USAL, Old Airport Road, Ghobeiry</p>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

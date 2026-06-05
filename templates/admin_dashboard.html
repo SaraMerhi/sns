@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <div class="top-bar">
+            <h1>Welcome {{ username }}</h1>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+
+        <div class="users-card">
+            <h2>Registered Users</h2>
+
+            {% for user in users %}
+            <div class="user-row">
+                <a href="/admin/user/{{ user.id }}/saved-rooms" class="user-info">
+                    <h3>{{ user.username }}</h3>
+                    <p>{{ user.email }}</p>
+                    <span>View saved rooms</span>
+                </a>
+
+                {% if user.is_admin != 1 %}
+                <form action="/delete-user/{{ user.id }}" method="POST">
+                    <button type="submit" class="delete-btn">Delete</button>
+                </form>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

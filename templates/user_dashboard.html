@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard | SNS Roomify</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user-dashboard.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="logo-icon">
+                SNS
+            </div>
+
+            <h2>
+                <span>SNS</span> Roomify
+            </h2>
+
+        </div>
+
+        <nav>
+            <a href="#" class="active">
+                Dashboard
+            </a>
+
+            <a href="#" id="profileBtn">
+                Profile
+            </a>
+
+            <a href="/logout" class="logout">
+                Log Out
+            </a>
+        </nav>
+
+    </aside>
+
+    <main class="main-content">
+
+        <section class="welcome-box">
+
+            <h1>
+                Welcome {{ username }}
+            </h1>
+
+            <p>
+                Start creating your dream room with SNS Roomify
+            </p>
+
+        </section>
+
+        <section class="create-section">
+
+            <h2>
+                Create Your Own Room
+            </h2>
+
+            <p>
+                Choose the room you want to design
+            </p>
+
+            <div class="room-grid">
+
+                <div class="room-card bedroom">
+
+                    <span>🛏️</span>
+
+                    <h3>
+                        Bedroom
+                    </h3>
+
+                    <button onclick="window.location.href='/create-room/bedroom'">
+                        Create
+                    </button>
+
+                </div>
+
+                <div class="room-card bathroom">
+
+                    <span>🛁</span>
+
+                    <h3>
+                        Bathroom
+                    </h3>
+
+                    <button onclick="window.location.href='/create-room/bathroom'">
+                        Create
+                    </button>
+
+                </div>
+
+                <div class="room-card living">
+
+                    <span>🛋️</span>
+
+                    <h3>
+                        Living Room
+                    </h3>
+
+                    <button onclick="window.location.href='/create-room/living-room'">
+                        Create
+                    </button>
+
+                </div>
+
+                <div class="room-card kitchen">
+
+                    <span>🍽️</span>
+
+                    <h3>
+                        Kitchen
+                    </h3>
+
+                    <button onclick="window.location.href='/create-room/kitchen'">
+                        Create
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="saved-section">
+
+            <h2>
+                Saved Rooms
+            </h2>
+
+            <div class="saved-grid" id="savedRooms">
+
+                {% if rooms %}
+
+                    {% for room in rooms %}
+
+                        <div class="saved-room-card">
+
+                            <span>🏠</span>
+
+                            <h3>
+                                {{ room.room_title }}
+                            </h3>
+
+                            <button onclick="window.location.href='/create-room/{{ room.room_name }}'">
+                                Open Room
+                            </button>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="empty-room">
+
+                        <span>＋</span>
+
+                        <h3>
+                            No saved rooms yet
+                        </h3>
+
+                        <p>
+                            Your saved room designs will appear here
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+        <section class="profile-section hidden" id="profileSection">
+
+            <h2>
+                Profile Settings
+            </h2>
+
+            <p>
+                Update your account information
+            </p>
+
+            <form id="profileForm">
+
+                <input type="text" id="profileUsername" name="username" placeholder="Username" value="{{ username }}">
+
+                <input type="email" id="profileEmail" name="email" placeholder="Email" value="{{ email }}">
+
+                <input type="password" id="profilePassword" name="password" placeholder="Password" value="{{ password }}">
+
+                <button type="submit">
+                    Save Changes
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/user-dashboard.js') }}"></script>
+
+</body>
+</html>

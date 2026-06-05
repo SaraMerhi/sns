@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Saved Rooms | SNS Roomify</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/saved-rooms.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="saved-page">
+
+    <div class="top-bar">
+
+        <div>
+            <h1>My Saved Rooms</h1>
+            <p>Access all the rooms you created with SNS Roomify</p>
+        </div>
+
+        <a href="/" class="home-btn">
+            Home Page
+        </a>
+
+    </div>
+
+    {% if rooms %}
+
+    <div class="rooms-grid">
+
+        {% for room in rooms %}
+
+        <div class="room-card">
+
+            <div class="room-icon">
+                🏠
+            </div>
+
+            <h2>
+                {{ room.room_title }}
+            </h2>
+
+            <p>
+                Your saved {{ room.room_title.lower() }} design
+            </p>
+
+            <a href="/create-room/{{ room.room_name }}" class="open-btn">
+    Open Room
+</a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            🏡
+        </div>
+
+        <h2>
+            No Saved Rooms Yet
+        </h2>
+
+        <p>
+            Create your first room and it will appear here.
+        </p>
+
+        <a href="/user-dashboard" class="create-btn">
+            Create Room
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

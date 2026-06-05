@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Completed | SNS Roomify</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/room-complete.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="complete-container">
+
+    <div class="complete-card">
+
+        <div class="logo-circle">
+            SNS
+        </div>
+
+        <h1>
+            Your {{ room_title }} Is Ready!
+        </h1>
+
+        <p>
+            Thank you for creating your room with SNS Roomify.
+            Your design has been successfully saved and is now available in your account.
+        </p>
+
+        <div class="actions">
+
+            <a href="/" class="btn-primary">
+                Home Page
+            </a>
+
+            <a href="/saved-rooms" class="btn-secondary">
+                My Saved Rooms
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
