@@ -18,6 +18,7 @@ const leftWallColor = document.querySelector("#leftWallColor");
 const rightWallColor = document.querySelector("#rightWallColor");
 const bottomWallColor = document.querySelector("#bottomWallColor");
 const floorColor = document.querySelector("#floorColor");
+const roomTitleInput = document.querySelector("#roomTitleInput");
 
 const furnitureByRoom = {
     "bedroom": {
@@ -395,14 +396,14 @@ function showControls(selectedWrapper) {
 
 function collectRoomData() {
     const items = document.querySelectorAll(".placed-item-wrapper");
-    const roomData = [];
+    const furniture = [];
 
     items.forEach(function (item) {
         const img = item.querySelector(".placed-item");
         const transform = img.style.transform || "rotate(0deg)";
         const rotationValue = parseInt(transform.replace("rotate(", "").replace("deg)", ""));
 
-        roomData.push({
+        furniture.push({
             image: img.getAttribute("src"),
             name: img.getAttribute("alt"),
             left: item.style.left,
@@ -413,11 +414,32 @@ function collectRoomData() {
         });
     });
 
-    return roomData;
+    return {
+        furniture: furniture,
+        colors: {
+            topWall: topWallColor.value,
+            leftWall: leftWallColor.value,
+            rightWall: rightWallColor.value,
+            bottomWall: bottomWallColor.value,
+            floor: floorColor.value
+        }
+    };
+}
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    if (toast) {
+        toast.textContent = message;
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 3000);
+    }
 }
 
 function saveRoomToDatabase(goNext) {
     const roomData = collectRoomData();
+    const roomTitle = roomTitleInput.value.trim() || "Untitled Room";
 
     fetch("/save-room-data", {
         method: "POST",
@@ -425,8 +447,9 @@ function saveRoomToDatabase(goNext) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            room_name: roomName,
-            room_data: roomData
+            room_id: roomId,
+            room_data: roomData,
+            room_title: roomTitle
         })
     })
     .then(function (response) {
@@ -435,18 +458,24 @@ function saveRoomToDatabase(goNext) {
     .then(function (data) {
         if (data.success) {
             if (goNext) {
-                window.location.href = "/room-complete/" + roomName;
+                window.location.href = "/room-complete/" + roomId;
             } else {
-                alert("Room saved successfully!");
+                showToast("Room saved successfully!");
             }
         } else {
-            alert(data.message);
+            showToast(data.message);
         }
     });
 }
 
+roomTitleInput.addEventListener("input", function () {
+    const newTitle = roomTitleInput.value.trim() || "Untitled Room";
+    document.querySelector(".editor-top h1").textContent = "Create Your Own " + newTitle;
+    document.title = "Create " + newTitle + " | SNS Roomify";
+});
+
 function loadSavedRoom() {
-    fetch("/get-room-data/" + roomName)
+    fetch("/get-room-data/" + roomId)
         .then(function (response) {
             return response.json();
         })
@@ -455,10 +484,45 @@ function loadSavedRoom() {
                 return;
             }
 
-            for (let i = 0; i < data.room_data.length; i++) {
-                const item = data.room_data[i];
+            let furniture = [];
+            let colors = null;
 
+            // Handle both old array format and new object format
+            if (Array.isArray(data.room_data)) {
+                furniture = data.room_data;
+            } else {
+                furniture = data.room_data.furniture || [];
+                colors = data.room_data.colors;
+            }
+
+            // Restore furniture
+            for (let i = 0; i < furniture.length; i++) {
+                const item = furniture[i];
                 addFurnitureToRoom(item.image, item.name, item);
+            }
+
+            // Restore colors
+            if (colors) {
+                if (colors.topWall) {
+                    topWall.style.background = colors.topWall;
+                    topWallColor.value = colors.topWall;
+                }
+                if (colors.leftWall) {
+                    leftWall.style.background = colors.leftWall;
+                    leftWallColor.value = colors.leftWall;
+                }
+                if (colors.rightWall) {
+                    rightWall.style.background = colors.rightWall;
+                    rightWallColor.value = colors.rightWall;
+                }
+                if (colors.bottomWall) {
+                    bottomWall.style.background = colors.bottomWall;
+                    bottomWallColor.value = colors.bottomWall;
+                }
+                if (colors.floor) {
+                    floorArea.style.background = colors.floor;
+                    floorColor.value = colors.floor;
+                }
             }
         });
 }

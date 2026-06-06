@@ -3,212 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard | SNS Roomify</title>
-
+    <title>User Panel | SNS Roomify</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/user-dashboard.css') }}">
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<div class="dashboard">
+<div class="admin-container">
 
     <aside class="sidebar">
-
-        <div class="brand">
-
-            <div class="logo-icon">
-                SNS
+        <div class="sidebar-header">
+            <div class="logo">
+                <div class="logo-icon">SNS</div>
+                <span>SNS Roomify</span>
             </div>
-
-            <h2>
-                <span>SNS</span> Roomify
-            </h2>
-
         </div>
 
-        <nav>
-            <a href="#" class="active">
-                Dashboard
+        <nav class="sidebar-nav">
+            <a href="/user-dashboard" class="nav-item active" id="dashboardBtn">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
             </a>
 
-            <a href="#" id="profileBtn">
-                Profile
+            <a href="/saved-rooms" class="nav-item">
+                <i class="fas fa-archive"></i>
+                <span>Saved Rooms</span>
             </a>
 
-            <a href="/logout" class="logout">
-                Log Out
+            <a href="#" class="nav-item" id="profileBtn">
+                <i class="fas fa-user-circle"></i>
+                <span>Profile</span>
             </a>
         </nav>
 
+        <div class="sidebar-footer">
+            <a href="/logout" class="nav-item logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </div>
     </aside>
 
     <main class="main-content">
 
-        <section class="welcome-box">
-
-            <h1>
-                Welcome {{ username }}
-            </h1>
-
-            <p>
-                Start creating your dream room with SNS Roomify
-            </p>
-
-        </section>
-
-        <section class="create-section">
-
-            <h2>
-                Create Your Own Room
-            </h2>
-
-            <p>
-                Choose the room you want to design
-            </p>
-
-            <div class="room-grid">
-
-                <div class="room-card bedroom">
-
-                    <span>🛏️</span>
-
-                    <h3>
-                        Bedroom
-                    </h3>
-
-                    <button onclick="window.location.href='/create-room/bedroom'">
-                        Create
-                    </button>
-
-                </div>
-
-                <div class="room-card bathroom">
-
-                    <span>🛁</span>
-
-                    <h3>
-                        Bathroom
-                    </h3>
-
-                    <button onclick="window.location.href='/create-room/bathroom'">
-                        Create
-                    </button>
-
-                </div>
-
-                <div class="room-card living">
-
-                    <span>🛋️</span>
-
-                    <h3>
-                        Living Room
-                    </h3>
-
-                    <button onclick="window.location.href='/create-room/living-room'">
-                        Create
-                    </button>
-
-                </div>
-
-                <div class="room-card kitchen">
-
-                    <span>🍽️</span>
-
-                    <h3>
-                        Kitchen
-                    </h3>
-
-                    <button onclick="window.location.href='/create-room/kitchen'">
-                        Create
-                    </button>
-
-                </div>
-
+        <div class="top-bar">
+            <h1>User Panel</h1>
+            <div class="user-menu">
+                <i class="fas fa-user-circle"></i>
+                <span>{{ username }}</span>
             </div>
+        </div>
 
-        </section>
+        <div class="page-content">
+            <section class="welcome-box">
+                <h1>Welcome {{ username }}</h1>
+                <p>Start creating your dream room with SNS Roomify</p>
+            </section>
 
-        <section class="saved-section">
+            <section class="create-section">
+                <h2>Create Your Own Room</h2>
+                <p>Choose the room you want to design</p>
 
-            <h2>
-                Saved Rooms
-            </h2>
-
-            <div class="saved-grid" id="savedRooms">
-
-                {% if rooms %}
-
-                    {% for room in rooms %}
-
-                        <div class="saved-room-card">
-
-                            <span>🏠</span>
-
-                            <h3>
-                                {{ room.room_title }}
-                            </h3>
-
-                            <button onclick="window.location.href='/create-room/{{ room.room_name }}'">
-                                Open Room
-                            </button>
-
-                        </div>
-
-                    {% endfor %}
-
-                {% else %}
-
-                    <div class="empty-room">
-
-                        <span>＋</span>
-
-                        <h3>
-                            No saved rooms yet
-                        </h3>
-
-                        <p>
-                            Your saved room designs will appear here
-                        </p>
-
+                <div class="room-grid">
+                    <div class="room-card bedroom">
+                        <span>🛏️</span>
+                        <h3>Bedroom</h3>
+                        <button onclick="window.location.href='/new-room/bedroom'">Create</button>
                     </div>
 
-                {% endif %}
+                    <div class="room-card bathroom">
+                        <span>🛁</span>
+                        <h3>Bathroom</h3>
+                        <button onclick="window.location.href='/new-room/bathroom'">Create</button>
+                    </div>
 
-            </div>
+                    <div class="room-card living">
+                        <span>🛋️</span>
+                        <h3>Living Room</h3>
+                        <button onclick="window.location.href='/new-room/living-room'">Create</button>
+                    </div>
 
-        </section>
+                    <div class="room-card kitchen">
+                        <span>🍽️</span>
+                        <h3>Kitchen</h3>
+                        <button onclick="window.location.href='/new-room/kitchen'">Create</button>
+                    </div>
+                </div>
+            </section>
 
-        <section class="profile-section hidden" id="profileSection">
+            <section class="profile-section hidden" id="profileSection">
+                <h2>Profile Settings</h2>
+                <p>Update your account information</p>
 
-            <h2>
-                Profile Settings
-            </h2>
-
-            <p>
-                Update your account information
-            </p>
-
-            <form id="profileForm">
-
-                <input type="text" id="profileUsername" name="username" placeholder="Username" value="{{ username }}">
-
-                <input type="email" id="profileEmail" name="email" placeholder="Email" value="{{ email }}">
-
-                <input type="password" id="profilePassword" name="password" placeholder="Password" value="{{ password }}">
-
-                <button type="submit">
-                    Save Changes
-                </button>
-
-            </form>
-
-        </section>
-
+                <form id="profileForm">
+                    <input type="text" id="profileUsername" name="username" placeholder="Username" value="{{ username }}">
+                    <input type="email" id="profileEmail" name="email" placeholder="Email" value="{{ email }}">
+                    <input type="password" id="profilePassword" name="password" placeholder="Password" value="{{ password }}">
+                    <button type="submit">Save Changes</button>
+                </form>
+            </section>
+        </div>
     </main>
-
 </div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
 
 <script src="{{ url_for('static', filename='js/user-dashboard.js') }}"></script>
 
