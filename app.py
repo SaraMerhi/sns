@@ -70,73 +70,67 @@ def signin():
     if request.method == "GET":
         return render_template("signin.html")
 
-    email = request.form.get("email")
+    username = request.form.get("username")
     password = request.form.get("password")
 
-    if email == "" or password == "":
-        return jsonify({"success": False, "message": "Please fill all fields"})
+    is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
 
-    user = User.query.filter_by(email=email, password=password).first()
+    if username == "" or password == "":
+        message = "Please fill all fields"
+        if is_ajax:
+            return jsonify({"success": False, "message": message})
+        return render_template("signin.html", error_message=message)
+
+    user = User.query.filter_by(username=username, password=password).first()
 
     if user:
         session["user_id"] = user.id
         session["username"] = user.username
-        role = "Admin" if user.is_admin == 1 else "User"
-        return jsonify({"success": True, "role": role})
+        redirect_url = "/admin-dashboard" if user.is_admin == 1 else "/user-dashboard"
+        if is_ajax:
+            return jsonify({"success": True, "redirect": redirect_url})
+        return redirect(redirect_url)
 
-    return jsonify({"success": False, "message": "Invalid email or password"})
+    message = "Invalid username or password"
+    if is_ajax:
+        return jsonify({"success": False, "message": message})
+    return render_template("signin.html", error_message=message)
 
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
-    if request.method == "GET":
-        return render_template("signup.html")
+    error_message = None
 
-    username = request.form.get("username")
-    email = request.form.get("email")
-    phone = request.form.get("phone")
-    password = request.form.get("password")
-    confirm_password = request.form.get("confirm_password")
+    if request.method == "POST":
+        username = request.form.get("username")
+        email = request.form.get("email")
+        phone = request.form.get("phone")
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirm_password")
 
-    if username == "" or email == "" or phone == "" or password == "" or confirm_password == "":
-        return jsonify({"success": False, "message": "Please fill all fields"})
+        if username == "" or email == "" or phone == "" or password == "" or confirm_password == "":
+            error_message = "Please fill all fields"
+        elif password != confirm_password:
+            error_message = "Passwords do not match"
+        elif not valid_email(email):
+            error_message = "Email must end with @gmail.com or @usal.edu.lb"
+        elif not valid_password(password):
+            error_message = "Password must be more than 7 characters and contain letters and numbers"
+        elif User.query.filter_by(email=email).first():
+            error_message = "This email already has an account"
+        elif not valid_phone(phone):
+            error_message = "Please enter a valid phone number"
+        else:
+            # All validations passed, create user
+            new_user = User(username=username, email=email,
+                            phone=phone, password=password)
+            db.session.add(new_user)
+            db.session.commit()
+            session["user_id"] = new_user.id
+            session["username"] = new_user.username
+            return redirect("/user-dashboard")
 
-    if password != confirm_password:
-        return jsonify({"success": False, "message": "Passwords do not match"})
-
-    if not valid_email(email):
-        return jsonify({
-            "success": False,
-            "message": "Email must end with @gmail.com or @usal.edu.lb"
-        })
-
-    if not valid_password(password):
-        return jsonify({
-            "success": False,
-            "message": "Password must be more than 7 characters and contain letters and numbers"
-        })
-
-    existing_user = User.query.filter_by(email=email).first()
-
-    if existing_user:
-        return jsonify({"success": False, "message": "This email already has an account"})
-
-    if not valid_phone(phone):
-        return jsonify({"success": False, "message": "Please enter a valid phone number"})
-
-    new_user = User(username=username, email=email, phone=phone, password=password)
-
-    db.session.add(new_user)
-    db.session.commit()
-
-    session["user_id"] = new_user.id
-    session["username"] = new_user.username
-
-    return jsonify({
-        "success": True,
-        "message": "Account created successfully",
-        "role": "User"
-    })
+    return render_template("signup.html", error_message=error_message)
 
 
 @app.route("/user-dashboard")
@@ -263,7 +257,8 @@ def saved_rooms():
         "saved_rooms.html",
         rooms=rooms
     )
-    
+
+
 @app.route("/get-room-data/<room_name>")
 def get_room_data(room_name):
     if "user_id" not in session:

@@ -1,22 +1,23 @@
 {% extends 'base-sign.html' %}
 
 {% block title %}
-  Sign In | SNS Roomify
+Sign In | SNS Roomify
 {% endblock %}
 
 {% block content %}
-  <div>
-    <div class="signin-box">
-      <div id="errorMessage" class="error-message hidden"></div>
-      <form id="signinForm" autocomplete="off">
-        <input type="email" id="email" name="email" placeholder="Email" required />
-        <input type="password" id="password" name="password" placeholder="Password" required />
-        <button type="submit">Sign In</button>
-      </form>
-      <div class="register-link">
-        Don't have an account?
-        <a href="/signup">Register</a>
-      </div>
+<div>
+  <div class="signin-box">
+    <div id="errorMessage" class="error-message {% if not error_message %}hidden{% endif %}">{{ error_message or "" }}
+    </div>
+    <form id="signinForm" method="post" autocomplete="off">
+      <input type="text" id="username" name="username" placeholder="Username" required />
+      <input type="password" id="password" name="password" placeholder="Password" required />
+      <button type="submit">Sign In</button>
+    </form>
+    <div class="register-link">
+      Don't have an account?
+      <a href="/signup">Register</a>
     </div>
   </div>
+</div>
 {% endblock %}
