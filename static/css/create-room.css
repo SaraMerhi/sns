@@ -23,17 +23,6 @@ body {
     overflow: hidden;
 }
 
-.editor-page.admin-view {
-    grid-template-columns: 1fr !important;
-}
-
-.editor-page.admin-view .furniture-panel,
-.editor-page.admin-view .customize-panel,
-.editor-page.admin-view .tools,
-.editor-page.admin-view .view-tabs {
-    display: none !important;
-}
-
 .furniture-panel {
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     padding: 20px;
