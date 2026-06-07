@@ -199,7 +199,7 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background-image: 
+    background-image:
         radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
     background-size: 40px 40px;
 }
@@ -211,6 +211,55 @@ body {
     background: #ffffff;
     box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
     overflow: hidden;
+}
+
+.room .wall {
+    position: absolute;
+    background: rgba(232, 176, 7, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    z-index: 5;
+}
+
+.wall-top {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.wall-left {
+    top: 50px;
+    left: 0;
+    bottom: 50px;
+    width: 50px;
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.wall-right {
+    top: 50px;
+    right: 0;
+    bottom: 50px;
+    width: 50px;
+    border-left: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.wall-bottom {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 50px;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.floor {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    right: 50px;
+    bottom: 50px;
+    background: #c7a77c;
+    z-index: 1;
 }
 
 /* CUSTOMIZE CONTROLS */
@@ -315,6 +364,13 @@ input[type="color"] {
     cursor: move;
 }
 
+.placed-item-wrapper .placed-item {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
 .furniture-controls {
     position: absolute;
     top: -45px;
@@ -385,6 +441,13 @@ input[type="color"] {
 }
 
 @keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }

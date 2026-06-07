@@ -119,7 +119,7 @@ const furnitureByRoom = {
             "/static/images/livingroom/plant4.png",
             "/static/images/livingroom/plant5.png"
         ],
-         "Rug": [
+        "Rug": [
             "/static/images/livingroom/Rag1.png",
             "/static/images/livingroom/Rag2.png",
             "/static/images/livingroom/Rag3.png",
@@ -255,8 +255,8 @@ function addFurnitureToRoom(imagePath, furnitureName, savedData = null) {
 
     wrapper.style.left = savedData ? savedData.left : "250px";
     wrapper.style.top = savedData ? savedData.top : "200px";
-    wrapper.style.width = savedData ? savedData.width : "120px";
-    wrapper.style.height = savedData ? savedData.height : "120px";
+    wrapper.style.width = savedData ? savedData.width : "90px";
+    wrapper.style.height = savedData ? savedData.height : "90px";
 
     const controls = document.createElement("div");
     controls.classList.add("furniture-controls");
@@ -452,20 +452,20 @@ function saveRoomToDatabase(goNext) {
             room_title: roomTitle
         })
     })
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        if (data.success) {
-            if (goNext) {
-                window.location.href = "/room-complete/" + roomId;
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            if (data.success) {
+                if (goNext) {
+                    window.location.href = "/room-complete/" + roomId;
+                } else {
+                    showToast("Room saved successfully!");
+                }
             } else {
-                showToast("Room saved successfully!");
+                showToast(data.message);
             }
-        } else {
-            showToast(data.message);
-        }
-    });
+        });
 }
 
 roomTitleInput.addEventListener("input", function () {
