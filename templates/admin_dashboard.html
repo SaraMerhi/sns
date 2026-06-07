@@ -7,33 +7,7 @@
 </head>
 <body>
     <div class="admin-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <div class="logo-icon">SNS</div>
-                    <span>Admin Panel</span>
-                </div>
-            </div>
-
-            <nav class="sidebar-nav">
-                <a href="/admin-users" class="nav-item active">
-                    <i class="fas fa-users"></i>
-                    <span>Users</span>
-                </a>
-                <a href="/admin-contact-messages" class="nav-item">
-                    <i class="fas fa-envelope"></i>
-                    <span>Contact Messages</span>
-                </a>
-            </nav>
-
-            <div class="sidebar-footer">
-                <a href="/logout" class="nav-item logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </div>
-        </aside>
+        {% include 'components/sidebar.html' %}
 
         <!-- Main Content -->
         <main class="main-content">
@@ -65,7 +39,6 @@
                             <div class="user-info">
                                 <h3>{{ user.username }}</h3>
                                 <p>{{ user.email }}</p>
-                                <span class="user-link" onclick="viewUserRooms({{ user.id }}, '{{ user.username }}')">View saved rooms</span>
                             </div>
 
                             {% if user.is_admin != 1 %}
@@ -81,15 +54,6 @@
 
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
-
-    <!-- User Rooms Modal -->
-    <div id="roomsModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h2 id="modalTitle" style="margin-bottom: 1.5rem; color: #e8b007;">User Rooms</h2>
-            <div id="modalBody"></div>
-        </div>
-    </div>
 
     <!-- Delete User Confirmation Modal -->
     <div id="deleteUserModal" class="modal">
@@ -115,43 +79,6 @@
             }, 3000);
         }
 
-        function viewUserRooms(userId, username) {
-            fetch(`/admin-view-user-rooms/${userId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const modal = document.getElementById('roomsModal');
-                        const modalTitle = document.getElementById('modalTitle');
-                        const modalBody = document.getElementById('modalBody');
-                        
-                        modalTitle.textContent = `${username}'s Saved Rooms`;
-                        modalBody.innerHTML = '';
-                        
-                        data.rooms.forEach(room => {
-                            const roomItem = document.createElement('div');
-                            roomItem.className = 'modal-room-item';
-                            roomItem.innerHTML = `
-                                <span>${room.room_title} (${room.room_name})</span>
-                                <a href="/edit-room/${room.id}" class="view-room-link">Open</a>
-                            `;
-                            modalBody.appendChild(roomItem);
-                        });
-                        
-                        modal.style.display = 'block';
-                    } else {
-                        showToast(data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showToast('An error occurred while fetching rooms.');
-                });
-        }
-
-        function closeModal() {
-            document.getElementById('roomsModal').style.display = 'none';
-        }
-
         function confirmDeleteUser(actionUrl, username) {
             const modal = document.getElementById('deleteUserModal');
             const form = document.getElementById('deleteUserForm');
@@ -168,12 +95,8 @@
 
         // Close modal when clicking outside
         window.onclick = function(event) {
-            const roomsModal = document.getElementById('roomsModal');
             const deleteModal = document.getElementById('deleteUserModal');
             
-            if (event.target == roomsModal) {
-                roomsModal.style.display = 'none';
-            }
             if (event.target == deleteModal) {
                 deleteModal.style.display = 'none';
             }

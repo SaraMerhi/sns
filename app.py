@@ -1,8 +1,10 @@
 import re
 import json
 from datetime import datetime
-from flask import Flask, render_template, request, jsonify, session, redirect
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -13,8 +15,21 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "signin"
 
-class User(db.Model):
+@login_manager.user_loader
+def load_user(user_id):
+    print(f"Loading user with ID: {user_id}")
+    return User.query.get(int(user_id))
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    print("Unauthorized access attempt.")
+    return redirect(url_for("signin"))
+
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -58,9 +73,9 @@ def seed_admin():
     admin_exists = User.query.filter_by(is_admin=1).first()
     if not admin_exists:
         admin = User(
-            username="Admin",
+            username="admin",
             email="admin@roomify.com",
-            password="admin123",
+            password=generate_password_hash("admin123"),
             phone="+1234567890",
             is_admin=1
         )
@@ -82,27 +97,28 @@ def signin():
     username = request.form.get("username")
     password = request.form.get("password")
 
-    is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-
     if username == "" or password == "":
         message = "Please fill all fields"
-        if is_ajax:
-            return jsonify({"success": False, "message": message})
         return render_template("signin.html", error_message=message)
 
-    user = User.query.filter_by(username=username, password=password).first()
+    # Assuming login_user sets session correctly, need to ensure is_admin is there
+    user = User.query.filter_by(username=username).first()
+    print(f"Attempting login for {username}. User found: {bool(user)}. Admin: {user.is_admin if user else 'N/A'}")
 
-    if user:
+    if user and check_password_hash(user.password, password):
+        logout_user()
+        session.clear()
+        login_user(user)
         session["user_id"] = user.id
         session["username"] = user.username
-        redirect_url = "/admin-dashboard" if user.is_admin == 1 else "/user-dashboard"
-        if is_ajax:
-            return jsonify({"success": True, "redirect": redirect_url})
+        session["is_admin"] = user.is_admin
+
+        # Redirect to the URL directly for standard synchronous form submission
+        redirect_url = "/admin-dashboard" if int(user.is_admin) == 1 else "/user-dashboard"
+        print(f"Login successful for {username}. Redirecting to {redirect_url}")
         return redirect(redirect_url)
 
     message = "Invalid username or password"
-    if is_ajax:
-        return jsonify({"success": False, "message": message})
     return render_template("signin.html", error_message=message)
 
 
@@ -132,7 +148,7 @@ def signup():
         else:
             # All validations passed, create user
             new_user = User(username=username, email=email,
-                            phone=phone, password=password)
+                            phone=phone, password=generate_password_hash(password))
             db.session.add(new_user)
             db.session.commit()
             session["user_id"] = new_user.id
@@ -142,28 +158,51 @@ def signup():
     return render_template("signup.html", error_message=error_message)
 
 
-@app.route("/user-dashboard")
-def user_dashboard():
-    if "user_id" not in session:
+@login_required
+@app.route("/profile")
+def profile():
+    user_id = session.get("user_id")
+    if not user_id:
         return redirect("/signin")
 
-    user = User.query.get(session["user_id"])
+    user = User.query.get(user_id)
 
     if not user:
         session.clear()
         return redirect("/signin")
 
+    return render_template(
+        "profile.html",
+        user=user,
+        active_page='profile'
+    )
+
+@login_required
+@app.route("/user-dashboard")
+def user_dashboard():
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect("/signin")
+
+    user = User.query.get(user_id)
+
+    if not user:
+        session.clear()
+        return redirect("/signin")
+
+    if int(user.is_admin) == 1:
+        return redirect("/admin-dashboard")
+
     rooms = Room.query.filter_by(user_id=user.id).all()
 
     return render_template(
         "user_dashboard.html",
-        username=user.username,
-        email=user.email,
-        password=user.password,
-        rooms=rooms
+        user=user,
+        rooms=rooms,
+        active_page='user_dashboard'
     )
 
-
+@login_required
 @app.route("/new-room/<room_type>")
 def new_room(room_type):
     if "user_id" not in session:
@@ -184,22 +223,24 @@ def new_room(room_type):
 
     return redirect(f"/edit-room/{new_room.id}")
 
-
+@login_required
 @app.route("/edit-room/<int:room_id>")
 def edit_room(room_id):
-    if "user_id" not in session:
+    user_id = session.get("user_id")
+    if not user_id:
         return redirect("/signin")
 
-    room = Room.query.filter_by(id=room_id, user_id=session["user_id"]).first_or_404()
+    room = Room.query.filter_by(id=room_id).first_or_404()
 
     return render_template(
         "create_room.html",
         room_id=room.id,
         room_name=room.room_name,
-        room_title=room.room_title
+        room_title=room.room_title,
+        is_admin=session.get("is_admin")
     )
 
-
+@login_required
 @app.route("/room-complete/<int:room_id>")
 def room_complete(room_id):
     if "user_id" not in session:
@@ -214,7 +255,7 @@ def room_complete(room_id):
         room_data=room.room_data or "[]"
     )
 
-
+@login_required
 @app.route("/save-room-data", methods=["POST"])
 def save_room_data():
     if "user_id" not in session:
@@ -257,7 +298,7 @@ def save_room_data():
         "message": "Room saved successfully"
     })
 
-
+@login_required
 @app.route("/saved-rooms")
 def saved_rooms():
     if "user_id" not in session:
@@ -269,10 +310,11 @@ def saved_rooms():
 
     return render_template(
         "saved_rooms.html",
-        rooms=rooms
+        rooms=rooms,
+        active_page='saved_rooms'
     )
 
-
+@login_required
 @app.route("/get-room-data/<int:room_id>")
 def get_room_data(room_id):
     if "user_id" not in session:
@@ -297,13 +339,14 @@ def get_room_data(room_id):
         "room_data": json.loads(room.room_data or "[]")
     })
 
-
+@login_required
 @app.route("/admin-view-user-rooms/<int:user_id>")
 def admin_view_user_rooms(user_id):
-    if "user_id" not in session:
+    user_id_session = session.get("user_id")
+    if not user_id_session:
         return jsonify({"success": False, "message": "Please sign in first"}), 401
 
-    admin = User.query.get(session["user_id"])
+    admin = User.query.get(user_id_session)
     if not admin or admin.is_admin != 1:
         return jsonify({"success": False, "message": "Access denied"}), 403
 
@@ -330,19 +373,22 @@ def admin_view_user_rooms(user_id):
         "rooms": rooms_data
     })
 
-
+@login_required
 @app.route("/admin-dashboard")
 def admin_dashboard():
-    if "user_id" not in session:
-        return redirect("/signin")
+    user_id = session.get("user_id")
+    admin = User.query.get(user_id) if user_id else None
 
-    admin = User.query.get(session["user_id"])
+    print(f"DEBUG: admin_dashboard accessed. User ID: {user_id}. Admin found: {bool(admin)}")
+    if admin:
+        print(f"DEBUG: admin_is_admin: {admin.is_admin} (type: {type(admin.is_admin)})")
 
     if not admin:
         session.clear()
         return redirect("/signin")
 
-    if admin.is_admin != 1:
+    if int(admin.is_admin) != 1:
+        print("DEBUG: Redirecting to user-dashboard")
         return redirect("/user-dashboard")
 
     users = User.query.filter(User.is_admin != 1).all()
@@ -350,16 +396,15 @@ def admin_dashboard():
     return render_template(
         "admin_dashboard.html",
         username=admin.username,
-        users=users
+        users=users,
+        active_page='admin_dashboard'
     )
 
-
+@login_required
 @app.route("/admin-users")
 def admin_users():
-    if "user_id" not in session:
-        return redirect("/signin")
-
-    admin = User.query.get(session["user_id"])
+    user_id = session.get("user_id")
+    admin = User.query.get(user_id) if user_id else None
 
     if not admin or admin.is_admin != 1:
         return redirect("/signin")
@@ -369,16 +414,15 @@ def admin_users():
     return render_template(
         "admin_dashboard.html",
         username=admin.username,
-        users=users
+        users=users,
+        active_page='admin_dashboard'
     )
 
-
+@login_required
 @app.route("/admin-contact-messages")
 def admin_contact_messages():
-    if "user_id" not in session:
-        return redirect("/signin")
-
-    admin = User.query.get(session["user_id"])
+    user_id = session.get("user_id")
+    admin = User.query.get(user_id) if user_id else None
 
     if not admin or admin.is_admin != 1:
         return redirect("/signin")
@@ -396,10 +440,11 @@ def admin_contact_messages():
         read_messages=read_messages,
         unread_messages=unread_messages,
         current_page=1,
-        messages_per_page=10
+        messages_per_page=10,
+        active_page='admin_contact_messages'
     )
 
-
+@login_required
 @app.route("/admin-mark-message-read/<int:message_id>", methods=["POST"])
 def admin_mark_message_read(message_id):
     if "user_id" not in session:
@@ -419,7 +464,7 @@ def admin_mark_message_read(message_id):
 
     return jsonify({"success": False}), 404
 
-
+@login_required
 @app.route("/admin-delete-message/<int:message_id>", methods=["POST"])
 def admin_delete_message(message_id):
     if "user_id" not in session:
@@ -438,7 +483,7 @@ def admin_delete_message(message_id):
 
     return redirect("/admin-contact-messages")
 
-
+@login_required
 @app.route("/delete-user/<int:user_id>", methods=["POST"])
 def delete_user(user_id):
     if "user_id" not in session:
@@ -463,7 +508,7 @@ def delete_user(user_id):
 
     return redirect("/admin-dashboard")
 
-
+@login_required
 @app.route("/update-profile", methods=["POST"])
 def update_profile():
     if "user_id" not in session:
@@ -516,8 +561,10 @@ def update_profile():
     })
 
 
+@login_required
 @app.route("/logout")
 def logout():
+    logout_user()
     session.clear()
     return redirect("/")
 
@@ -547,7 +594,6 @@ def submit_contact():
 
     success_message = "Thanks! Your message is sent. Redirecting to home..."
     return render_template("contact.html", success_message=success_message, error_message=None)
-
 
 
 with app.app_context():

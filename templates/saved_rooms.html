@@ -13,38 +13,7 @@
 
 <div class="admin-container">
 
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo">
-                <div class="logo-icon">SNS</div>
-                <span>SNS Roomify</span>
-            </div>
-        </div>
-
-        <nav class="sidebar-nav">
-            <a href="/user-dashboard" class="nav-item">
-                <i class="fas fa-home"></i>
-                <span>Dashboard</span>
-            </a>
-
-            <a href="/saved-rooms" class="nav-item active">
-                <i class="fas fa-archive"></i>
-                <span>Saved Rooms</span>
-            </a>
-
-            <a href="/user-dashboard" class="nav-item">
-                <i class="fas fa-user-circle"></i>
-                <span>Profile</span>
-            </a>
-        </nav>
-
-        <div class="sidebar-footer">
-            <a href="/logout" class="nav-item logout">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </a>
-        </div>
-    </aside>
+    {% include 'components/sidebar.html' %}
 
     <main class="main-content">
 
@@ -61,7 +30,17 @@
             <div class="room-grid">
                 {% for room in rooms %}
                 <div class="room-card">
-                    <span style="font-size: 3rem;">🏠</span>
+                    {% if room.room_name == 'bedroom' %}
+                        <img src="{{ url_for('static', filename='images/bed.png') }}" alt="Bedroom" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+                    {% elif room.room_name == 'livingroom' %}
+                        <img src="{{ url_for('static', filename='images/living-room.png') }}" alt="Living Room" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+                    {% elif room.room_name == 'kitchen' %}
+                        <img src="{{ url_for('static', filename='images/kitchen.png') }}" alt="Kitchen" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+                    {% elif room.room_name == 'bathroom' %}
+                        <img src="{{ url_for('static', filename='images/bathroom.png') }}" alt="Bathroom" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Room Image" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+                    {% endif %}
                     <h3>{{ room.room_title }}</h3>
                     <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 1.5rem;">Your saved {{ room.room_name }} design</p>
                     <button onclick="window.location.href='/edit-room/{{ room.id }}'">Open Room</button>

@@ -7,33 +7,7 @@
 </head>
 <body>
     <div class="admin-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <div class="logo-icon">SNS</div>
-                    <span>Admin Panel</span>
-                </div>
-            </div>
-
-            <nav class="sidebar-nav">
-                <a href="/admin-users" class="nav-item">
-                    <i class="fas fa-users"></i>
-                    <span>Users</span>
-                </a>
-                <a href="/admin-contact-messages" class="nav-item active">
-                    <i class="fas fa-envelope"></i>
-                    <span>Contact Messages</span>
-                </a>
-            </nav>
-
-            <div class="sidebar-footer">
-                <a href="/logout" class="nav-item logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </div>
-        </aside>
+        {% include 'components/sidebar.html' %}
 
         <!-- Main Content -->
         <main class="main-content">

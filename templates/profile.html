@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings | SNS Roomify</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user-dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="admin-container">
+
+        {% include 'components/sidebar.html' %}
+
+        <main class="main-content">
+
+            <div class="top-bar">
+                <h1>Profile Settings</h1>
+                <div class="user-menu">
+                    <i class="fas fa-user-circle"></i>
+                    <span>{{ user.username }}</span>
+                </div>
+            </div>
+
+            <div class="page-content">
+                <section class="profile-section">
+                    <h2>Account Information</h2>
+                    <p>Update your account details below</p>
+
+                    <form id="profileForm">
+                        <input type="text" id="profileUsername" name="username" placeholder="Username"
+                            value="{{ user.username }}">
+                        <input type="email" id="profileEmail" name="email" placeholder="Email" value="{{ user.email }}">
+                        <input type="password" id="profilePassword" name="password" placeholder="Password"
+                            value="{{ user.password }}">
+                        <button type="submit">Save Changes</button>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="{{ url_for('static', filename='js/user-dashboard.js') }}"></script>
+
+</body>
+
+</html>

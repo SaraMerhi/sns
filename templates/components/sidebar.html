@@ -1,0 +1,41 @@
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="SNS Roomify Logo" style="width: 40px; height: 40px; margin-right: 0.5rem;" />
+      <span>SNS Roomify</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    {% if session.get('is_admin') == 1 %}
+      <a href="/admin-users" class="nav-item {% if active_page == 'admin_users' %}active{% endif %}">
+        <i class="fas fa-users"></i>
+        <span>Users</span>
+      </a>
+      <a href="/admin-contact-messages" class="nav-item {% if active_page == 'admin_contact_messages' %}active{% endif %}">
+        <i class="fas fa-envelope"></i>
+        <span>Messages</span>
+      </a>
+    {% else %}
+      <a href="/user-dashboard" class="nav-item {% if active_page == 'user_dashboard' %}active{% endif %}" id="dashboardBtn">
+        <i class="fas fa-home"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="/saved-rooms" class="nav-item {% if active_page == 'saved_rooms' %}active{% endif %}">
+        <i class="fas fa-archive"></i>
+        <span>Saved Rooms</span>
+      </a>
+      <a href="/profile" class="nav-item {% if active_page == 'profile' %}active{% endif %}">
+        <i class="fas fa-user-circle"></i>
+        <span>Profile</span>
+      </a>
+    {% endif %}
+  </nav>
+
+  <div class="sidebar-footer">
+    <a href="/logout" class="nav-item logout">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </a>
+  </div>
+</aside>

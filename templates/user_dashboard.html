@@ -15,38 +15,7 @@
 
     <div class="admin-container">
 
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <div class="logo-icon">SNS</div>
-                    <span>SNS Roomify</span>
-                </div>
-            </div>
-
-            <nav class="sidebar-nav">
-                <a href="/user-dashboard" class="nav-item active" id="dashboardBtn">
-                    <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
-                </a>
-
-                <a href="/saved-rooms" class="nav-item">
-                    <i class="fas fa-archive"></i>
-                    <span>Saved Rooms</span>
-                </a>
-
-                <a href="#" class="nav-item" id="profileBtn">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Profile</span>
-                </a>
-            </nav>
-
-            <div class="sidebar-footer">
-                <a href="/logout" class="nav-item logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </div>
-        </aside>
+        {% include 'components/sidebar.html' %}
 
         <main class="main-content">
 
@@ -54,13 +23,13 @@
                 <h1>User Panel</h1>
                 <div class="user-menu">
                     <i class="fas fa-user-circle"></i>
-                    <span>{{ username }}</span>
+                    <span>{{ user.username }}</span>
                 </div>
             </div>
 
             <div class="page-content">
                 <section class="welcome-box">
-                    <h1>Welcome {{ username }}</h1>
+                    <h1>Welcome {{ user.username }}</h1>
                     <p>Start creating your dream room with SNS Roomify</p>
                 </section>
 
@@ -97,20 +66,6 @@
                             <button onclick="window.location.href='/new-room/kitchen'">Create</button>
                         </div>
                     </div>
-                </section>
-
-                <section class="profile-section hidden" id="profileSection">
-                    <h2>Profile Settings</h2>
-                    <p>Update your account information</p>
-
-                    <form id="profileForm">
-                        <input type="text" id="profileUsername" name="username" placeholder="Username"
-                            value="{{ username }}">
-                        <input type="email" id="profileEmail" name="email" placeholder="Email" value="{{ email }}">
-                        <input type="password" id="profilePassword" name="password" placeholder="Password"
-                            value="{{ password }}">
-                        <button type="submit">Save Changes</button>
-                    </form>
                 </section>
             </div>
         </main>

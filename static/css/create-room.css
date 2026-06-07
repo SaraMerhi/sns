@@ -23,24 +23,25 @@ body {
     overflow: hidden;
 }
 
-/* SIDE PANELS (FURNITURE & CUSTOMIZE) */
-.furniture-panel,
-.customize-panel {
-    height: 100vh;
-    background: rgba(20, 27, 40, 0.95);
-    padding: 1.5rem;
-    overflow-y: auto;
-    border: none;
-    backdrop-filter: blur(20px);
-    z-index: 10;
+.editor-page.admin-view {
+    grid-template-columns: 1fr !important;
+}
+
+.editor-page.admin-view .furniture-panel,
+.editor-page.admin-view .customize-panel,
+.editor-page.admin-view .tools,
+.editor-page.admin-view .view-tabs {
+    display: none !important;
 }
 
 .furniture-panel {
     border-right: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
 }
 
 .customize-panel {
     border-left: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
 }
 
 .panel-title {

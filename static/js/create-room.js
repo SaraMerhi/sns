@@ -158,11 +158,48 @@ const furnitureByRoom = {
     },
 
     "bathroom": {
-        "Coming Soon": []
+        "Bath": [
+            "/static/images/bathroom/bath/bath.png",
+            "/static/images/bathroom/bath/bath-1.png",
+        ],
+        "Shower": [
+            "/static/images/bathroom/shower/shower.png",
+            "/static/images/bathroom/shower/shower-1.png",
+            "/static/images/bathroom/shower/shower-2.png",
+        ],
+        "Toilet": [
+            "/static/images/bathroom/toilet/toilet.png",
+            "/static/images/bathroom/toilet/toilet-1.png",
+            "/static/images/bathroom/toilet/toilet-2.png",
+        ],
+        "Sink": [
+            "/static/images/bathroom/sink/sink.png",
+            "/static/images/bathroom/sink/sink-1.png",
+            "/static/images/bathroom/sink/sink-2.png",
+        ]
     },
 
     "kitchen": {
-        "Coming Soon": []
+        "Table": [
+            "/static/images/kitchen/table/table.png",
+            "/static/images/kitchen/table/table-1.png",
+            "/static/images/kitchen/table/table-2.png",
+            "/static/images/kitchen/table/table-3.png"],
+        "Stove": [
+            "/static/images/kitchen/stove/stove.png",
+            "/static/images/kitchen/stove/stove-1.png",
+            "/static/images/kitchen/stove/stove-2.png",
+        ],
+        "Fridge": [
+            "/static/images/kitchen/fridge/fridge.png",
+            "/static/images/kitchen/fridge/fridge-1.png",
+            "/static/images/kitchen/fridge/fridge-2.png",
+        ],
+        "Sink": [
+            "/static/images/kitchen/sink/sink.png",
+            "/static/images/kitchen/sink/sink-1.png",
+            "/static/images/kitchen/sink/sink-2.png",
+        ]
     }
 };
 
@@ -180,13 +217,21 @@ const categoryIcons = {
     "TV": "📺",
     "Coming Soon": "🚧",
     "Desk": "🖥️",
-    "Pouf": "🟣"
+    "Pouf": "🟣",
+    "Bath": "🛁",
+    "Shower": "🚿",
+    "Toilet": "🚽",
+    "Sink": "🚰",
+    "Stove": "🍳",
+    "Fridge": "🧊"
+
 };
 
 function loadFurnitureCategories() {
     furnitureList.innerHTML = "";
-
+    console.log("Loading categories for room type:", roomType);
     const categories = furnitureByRoom[roomType];
+    console.log("Categories found:", Object.keys(categories));
 
     for (const categoryName in categories) {
         const item = document.createElement("div");
@@ -261,14 +306,6 @@ function addFurnitureToRoom(imagePath, furnitureName, savedData = null) {
     const controls = document.createElement("div");
     controls.classList.add("furniture-controls");
 
-    controls.innerHTML = `
-        <button class="control-btn rotate-left">↺</button>
-        <button class="control-btn rotate-right">↻</button>
-        <button class="control-btn bigger">＋</button>
-        <button class="control-btn smaller">－</button>
-        <button class="control-btn delete-item">✕</button>
-    `;
-
     const placedItem = document.createElement("img");
     placedItem.classList.add("placed-item");
     placedItem.src = imagePath;
@@ -277,60 +314,75 @@ function addFurnitureToRoom(imagePath, furnitureName, savedData = null) {
     let rotation = savedData ? savedData.rotationValue : 0;
     placedItem.style.transform = "rotate(" + rotation + "deg)";
 
-    controls.querySelector(".rotate-left").addEventListener("click", function (event) {
-        event.stopPropagation();
-        rotation -= 90;
-        placedItem.style.transform = "rotate(" + rotation + "deg)";
-    });
+    // Only add controls if not admin
+    if (isAdmin !== 1) {
+        controls.innerHTML = `
+            <button class="control-btn rotate-left">↺</button>
+            <button class="control-btn rotate-right">↻</button>
+            <button class="control-btn bigger">＋</button>
+            <button class="control-btn smaller">－</button>
+            <button class="control-btn delete-item">✕</button>
+        `;
 
-    controls.querySelector(".rotate-right").addEventListener("click", function (event) {
-        event.stopPropagation();
-        rotation += 90;
-        placedItem.style.transform = "rotate(" + rotation + "deg)";
-    });
+        controls.querySelector(".rotate-left").addEventListener("click", function (event) {
+            event.stopPropagation();
+            rotation -= 90;
+            placedItem.style.transform = "rotate(" + rotation + "deg)";
+        });
 
-    controls.querySelector(".bigger").addEventListener("click", function (event) {
-        event.stopPropagation();
+        controls.querySelector(".rotate-right").addEventListener("click", function (event) {
+            event.stopPropagation();
+            rotation += 90;
+            placedItem.style.transform = "rotate(" + rotation + "deg)";
+        });
 
-        const newSize = wrapper.offsetWidth + 20;
+        controls.querySelector(".bigger").addEventListener("click", function (event) {
+            event.stopPropagation();
 
-        wrapper.style.width = newSize + "px";
-        wrapper.style.height = newSize + "px";
-    });
-
-    controls.querySelector(".smaller").addEventListener("click", function (event) {
-        event.stopPropagation();
-
-        if (wrapper.offsetWidth > 60) {
-            const newSize = wrapper.offsetWidth - 20;
+            const newSize = wrapper.offsetWidth + 20;
 
             wrapper.style.width = newSize + "px";
             wrapper.style.height = newSize + "px";
-        }
-    });
+        });
 
-    controls.querySelector(".delete-item").addEventListener("click", function (event) {
-        event.stopPropagation();
-        wrapper.remove();
-    });
+        controls.querySelector(".smaller").addEventListener("click", function (event) {
+            event.stopPropagation();
 
-    wrapper.addEventListener("click", function (event) {
-        event.stopPropagation();
-        showControls(wrapper);
-    });
+            if (wrapper.offsetWidth > 60) {
+                const newSize = wrapper.offsetWidth - 20;
+
+                wrapper.style.width = newSize + "px";
+                wrapper.style.height = newSize + "px";
+            }
+        });
+
+        controls.querySelector(".delete-item").addEventListener("click", function (event) {
+            event.stopPropagation();
+            wrapper.remove();
+        });
+
+        wrapper.addEventListener("click", function (event) {
+            event.stopPropagation();
+            showControls(wrapper);
+        });
+    }
 
     wrapper.appendChild(controls);
     wrapper.appendChild(placedItem);
 
     roomBox.appendChild(wrapper);
 
-    makeMovable(wrapper);
+    // Only make movable if not admin
+    if (isAdmin !== 1) {
+        makeMovable(wrapper);
+    }
 }
 
 function makeMovable(item) {
     let moving = false;
     let offsetX = 0;
     let offsetY = 0;
+    const gridSize = 20; // Define grid size for snapping
 
     item.addEventListener("mousedown", function (event) {
         if (event.target.classList.contains("control-btn")) {
@@ -338,6 +390,7 @@ function makeMovable(item) {
         }
 
         moving = true;
+        item.style.opacity = "0.7"; // Visual feedback: lower opacity while dragging
 
         const itemRect = item.getBoundingClientRect();
 
@@ -355,20 +408,18 @@ function makeMovable(item) {
         let x = event.clientX - roomRect.left - offsetX;
         let y = event.clientY - roomRect.top - offsetY;
 
-        if (x < 0) {
-            x = 0;
-        }
+        // Apply grid snapping
+        x = Math.round(x / gridSize) * gridSize;
+        y = Math.round(y / gridSize) * gridSize;
 
-        if (y < 0) {
-            y = 0;
-        }
-
+        // Boundary checks
+        if (x < 0) x = 0;
+        if (y < 0) y = 0;
         if (x > roomBox.offsetWidth - item.offsetWidth) {
-            x = roomBox.offsetWidth - item.offsetWidth;
+            x = Math.floor((roomBox.offsetWidth - item.offsetWidth) / gridSize) * gridSize;
         }
-
         if (y > roomBox.offsetHeight - item.offsetHeight) {
-            y = roomBox.offsetHeight - item.offsetHeight;
+            y = Math.floor((roomBox.offsetHeight - item.offsetHeight) / gridSize) * gridSize;
         }
 
         item.style.left = x + "px";
@@ -377,10 +428,13 @@ function makeMovable(item) {
 
     document.addEventListener("mouseup", function () {
         moving = false;
+        item.style.opacity = "1"; // Restore opacity
     });
 
     item.addEventListener("dblclick", function () {
-        item.remove();
+        if (isAdmin !== 1) {
+            item.remove();
+        }
     });
 }
 
@@ -480,6 +534,7 @@ function loadSavedRoom() {
             return response.json();
         })
         .then(function (data) {
+            console.log("Room data loaded:", data);
             if (!data.success || !data.room_data) {
                 return;
             }
