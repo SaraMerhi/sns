@@ -1,3 +1,4 @@
+@import "variables.css";
 html {
     scroll-behavior: smooth;
 }
@@ -6,7 +7,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: "Poppins", sans-serif;
-    color: white;
+    color: var(--color-text-light);
     min-height: 100vh;
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)),
@@ -63,8 +64,8 @@ body {
 }
 
 .contact-form button {
-    background-color: #e8b007;
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
     width: 100%;
     max-width: 100%;
     padding: 10px 20px;

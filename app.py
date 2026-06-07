@@ -21,12 +21,10 @@ login_manager.login_view = "signin"
 
 @login_manager.user_loader
 def load_user(user_id):
-    print(f"Loading user with ID: {user_id}")
     return User.query.get(int(user_id))
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    print("Unauthorized access attempt.")
     return redirect(url_for("signin"))
 
 class User(db.Model, UserMixin):
@@ -103,7 +101,6 @@ def signin():
 
     # Assuming login_user sets session correctly, need to ensure is_admin is there
     user = User.query.filter_by(username=username).first()
-    print(f"Attempting login for {username}. User found: {bool(user)}. Admin: {user.is_admin if user else 'N/A'}")
 
     if user and check_password_hash(user.password, password):
         logout_user()
@@ -115,7 +112,6 @@ def signin():
 
         # Redirect to the URL directly for standard synchronous form submission
         redirect_url = "/admin-dashboard" if int(user.is_admin) == 1 else "/user-dashboard"
-        print(f"Login successful for {username}. Redirecting to {redirect_url}")
         return redirect(redirect_url)
 
     message = "Invalid username or password"
@@ -379,16 +375,11 @@ def admin_dashboard():
     user_id = session.get("user_id")
     admin = User.query.get(user_id) if user_id else None
 
-    print(f"DEBUG: admin_dashboard accessed. User ID: {user_id}. Admin found: {bool(admin)}")
-    if admin:
-        print(f"DEBUG: admin_is_admin: {admin.is_admin} (type: {type(admin.is_admin)})")
-
     if not admin:
         session.clear()
         return redirect("/signin")
 
     if int(admin.is_admin) != 1:
-        print("DEBUG: Redirecting to user-dashboard")
         return redirect("/user-dashboard")
 
     users = User.query.filter(User.is_admin != 1).all()

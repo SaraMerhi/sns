@@ -1,3 +1,13 @@
+@import "variables.css";
+:root {
+    --color-primary: var(--color-primary);
+    --color-bg-dark: var(--color-bg-dark);
+    --color-text-light: #ffffff;
+    --color-error: var(--color-error);
+    --border-light: 1px solid rgba(255, 255, 255, 0.1);
+    --border-dark: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -12,8 +22,8 @@ body {
 
 body {
     font-family: "Poppins", sans-serif;
-    background: #020b12;
-    color: white;
+    background: var(--color-bg-dark);
+    color: var(--color-text-light);
 }
 
 .editor-page {
@@ -23,13 +33,24 @@ body {
     overflow: hidden;
 }
 
+.editor-page.admin-view {
+    grid-template-columns: 1fr !important;
+}
+
+.editor-page.admin-view .furniture-panel,
+.editor-page.admin-view .customize-panel,
+.editor-page.admin-view .tools,
+.editor-page.admin-view .view-tabs {
+    display: none !important;
+}
+
 .furniture-panel {
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: var(--border-light);
     padding: 20px;
 }
 
 .customize-panel {
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: var(--border-light);
     padding: 20px;
 }
 
@@ -39,21 +60,21 @@ body {
     align-items: center;
     margin-bottom: 2rem;
     padding-bottom: 1.2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: var(--border-light);
 }
 
 .panel-title h2,
 .customize-panel h2 {
     font-size: 1.3rem;
     font-weight: 700;
-    color: #e8b007;
+    color: var(--color-primary);
     display: flex;
     align-items: center;
     gap: 0.8rem;
 }
 
 .panel-title a {
-    color: white;
+    color: var(--color-text-light);
     text-decoration: none;
     font-size: 1.4rem;
     transition: 0.2s;
@@ -81,7 +102,7 @@ body {
 .furniture-item:hover {
     background: rgba(255, 255, 255, 0.08);
     transform: translateX(5px);
-    border-color: #e8b007;
+    border-color: var(--color-primary);
 }
 
 .furniture-icon {
@@ -100,7 +121,7 @@ body {
 .design-area {
     height: 100vh;
     padding: 0;
-    background: #020b12;
+    background: var(--color-bg-dark);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -112,13 +133,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: var(--border-light);
     backdrop-filter: blur(12px);
 }
 
 .editor-top h1 {
     font-size: 1.2rem;
-    color: white;
+    color: var(--color-text-light);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -126,8 +147,8 @@ body {
 
 .view-tabs button {
     background: rgba(255, 255, 255, 0.05);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-light);
+    border: var(--border-light);
     padding: 0.6rem 1.2rem;
     border-radius: 0.5rem;
     font-weight: 600;
@@ -139,9 +160,9 @@ body {
 }
 
 .view-tabs button:hover {
-    background: #e8b007;
-    color: #020b12;
-    border-color: #e8b007;
+    background: var(--color-primary);
+    color: var(--color-bg-dark);
+    border-color: var(--color-primary);
 }
 
 .tools {
@@ -163,18 +184,18 @@ body {
 
 #clearBtn {
     background: rgba(242, 87, 70, 0.1);
-    color: #f25746;
+    color: var(--color-error);
     border: 1px solid rgba(242, 87, 70, 0.2);
 }
 
 #clearBtn:hover {
-    background: #f25746;
-    color: white;
+    background: var(--color-error);
+    color: var(--color-text-light);
 }
 
 #saveBtn {
-    background: #e8b007;
-    color: #020b12;
+    background: var(--color-primary);
+    color: var(--color-bg-dark);
     box-shadow: 0 4px 15px rgba(232, 176, 7, 0.2);
 }
 
@@ -198,7 +219,7 @@ body {
     position: relative;
     width: 760px;
     height: 560px;
-    background: #ffffff;
+    background: var(--color-text-light);
     box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
     overflow: hidden;
 }
@@ -206,7 +227,7 @@ body {
 .room .wall {
     position: absolute;
     background: rgba(232, 176, 7, 0.12);
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: var(--border-dark);
     z-index: 5;
 }
 
@@ -215,7 +236,7 @@ body {
     left: 0;
     right: 0;
     height: 50px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    border-bottom: var(--border-dark);
 }
 
 .wall-left {
@@ -223,7 +244,7 @@ body {
     left: 0;
     bottom: 50px;
     width: 50px;
-    border-right: 1px solid rgba(0, 0, 0, 0.12);
+    border-right: var(--border-dark);
 }
 
 .wall-right {
@@ -231,7 +252,7 @@ body {
     right: 0;
     bottom: 50px;
     width: 50px;
-    border-left: 1px solid rgba(0, 0, 0, 0.12);
+    border-left: var(--border-dark);
 }
 
 .wall-bottom {
@@ -239,7 +260,7 @@ body {
     right: 0;
     bottom: 0;
     height: 50px;
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    border-top: var(--border-dark);
 }
 
 .floor {
@@ -264,11 +285,11 @@ body {
 .control-group h3 {
     font-size: 0.9rem;
     margin-bottom: 1rem;
-    color: white;
+    color: var(--color-text-light);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-left: 3px solid #e8b007;
+    border-left: 3px solid var(--color-primary);
     padding-left: 0.8rem;
 }
 
@@ -284,12 +305,12 @@ body {
 input[type="color"] {
     width: 100%;
     height: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: var(--border-light);
     border-radius: 0.6rem;
     background: rgba(255, 255, 255, 0.05);
     cursor: pointer;
     padding: 0 0.5rem;
-    color: white;
+    color: var(--color-text-light);
     outline: none;
     transition: 0.2s;
 }
@@ -300,7 +321,7 @@ input[type="color"] {
 }
 
 .theme-input:focus {
-    border-color: #e8b007;
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgba(232, 176, 7, 0.1);
 }
 
@@ -317,7 +338,7 @@ input[type="color"] {
 .furniture-option:hover {
     background: rgba(255, 255, 255, 0.08);
     transform: translateY(-3px);
-    border-color: #e8b007;
+    border-color: var(--color-primary);
 }
 
 .furniture-option img {
@@ -330,10 +351,10 @@ input[type="color"] {
     width: 100%;
     padding: 0.8rem;
     margin-bottom: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: var(--border-light);
     border-radius: 0.7rem;
     background: rgba(255, 255, 255, 0.05);
-    color: white;
+    color: var(--color-text-light);
     cursor: pointer;
     font-weight: 700;
     transition: 0.2s;
@@ -344,8 +365,8 @@ input[type="color"] {
 }
 
 .back-category-btn:hover {
-    background: white;
-    color: #020b12;
+    background: var(--color-text-light);
+    color: var(--color-bg-dark);
 }
 
 .placed-item-wrapper {
@@ -372,7 +393,7 @@ input[type="color"] {
     display: none;
     gap: 6px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    border: 1px solid #e8b007;
+    border: 1px solid var(--color-primary);
 }
 
 .placed-item-wrapper.active .furniture-controls {
@@ -382,7 +403,7 @@ input[type="color"] {
 .control-btn {
     border: none;
     background: transparent;
-    color: #e8b007;
+    color: var(--color-primary);
     width: 28px;
     height: 28px;
     border-radius: 6px;
@@ -419,8 +440,8 @@ input[type="color"] {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    background: #e8b007;
-    color: #020b12;
+    background: var(--color-primary);
+    color: var(--color-bg-dark);
     padding: 1rem 2rem;
     border-radius: 0.8rem;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);

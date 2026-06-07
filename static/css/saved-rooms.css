@@ -1,3 +1,4 @@
+@import "variables.css";
 *{
     margin:0;
     padding:0;
@@ -16,7 +17,7 @@ body{
     background-position:center;
     background-repeat:no-repeat;
 
-    color:white;
+    color:var(--color-text-light);
 }
 
 .saved-page{

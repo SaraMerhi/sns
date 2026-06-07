@@ -1,0 +1,12 @@
+:root {
+    --color-primary: #e8b007;
+    --color-primary-dark: #d4a006;
+    --color-bg-dark: #020b12;
+    --color-text-light: #ffffff;
+    --color-text-muted: rgba(255, 255, 255, 0.6);
+    --color-error: #f25746;
+    --color-success: #28a745;
+    --border-light: 1px solid rgba(255, 255, 255, 0.1);
+    --border-dark: 1px solid rgba(0, 0, 0, 0.1);
+    --font-main: "Poppins", sans-serif;
+}

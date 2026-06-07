@@ -1,3 +1,4 @@
+@import "variables.css";
 * {
     margin: 0;
     padding: 0;
@@ -6,8 +7,8 @@
 
 body {
     font-family: "Poppins", sans-serif;
-    background-color: #020b12;
-    color: white;
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-light);
 }
 
 .admin-container {
@@ -23,7 +24,7 @@ body {
         url("/static/images/background-main1.jpg");
     background-size: cover;
     background-position: center;
-    color: #020b12;
+    color: var(--color-bg-dark);
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
@@ -49,8 +50,8 @@ body {
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
-    background-color: #020b12;
-    color: #e8b007;
+    background-color: var(--color-bg-dark);
+    color: var(--color-primary);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -77,14 +78,14 @@ body {
 
 .nav-item:hover {
     background: rgba(0, 0, 0, 0.05);
-    color: #020b12;
-    border-left-color: #020b12;
+    color: var(--color-bg-dark);
+    border-left-color: var(--color-bg-dark);
 }
 
 .nav-item.active {
     background: rgba(0, 0, 0, 0.1);
-    color: #020b12;
-    border-left-color: #020b12;
+    color: var(--color-bg-dark);
+    border-left-color: var(--color-bg-dark);
 }
 
 .nav-item i {
@@ -112,7 +113,7 @@ body {
     margin-left: 240px;
     display: flex;
     flex-direction: column;
-    background: #020b12;
+    background: var(--color-bg-dark);
     overflow-y: auto;
 }
 
@@ -128,7 +129,7 @@ body {
 
 .top-bar h1 {
     font-size: 1.8rem;
-    color: white;
+    color: var(--color-text-light);
 }
 
 .user-menu {
@@ -141,7 +142,7 @@ body {
 
 .user-menu i {
     font-size: 1.5rem;
-    color: #e8b007;
+    color: var(--color-primary);
 }
 
 .page-content {
@@ -155,7 +156,7 @@ body {
 }
 
 .page-header h1 {
-    color: white;
+    color: var(--color-text-light);
 }
 
 .page-header p {
@@ -200,7 +201,7 @@ body {
 
 .stat-icon.total {
     background: rgba(232, 176, 7, 0.2);
-    color: #e8b007;
+    color: var(--color-primary);
 }
 
 .stat-icon.read {
@@ -210,12 +211,12 @@ body {
 
 .stat-icon.unread {
     background: rgba(232, 176, 7, 0.2);
-    color: #e8b007;
+    color: var(--color-primary);
 }
 
 .stat-icon.deleted {
     background: rgba(242, 87, 70, 0.2);
-    color: #f25746;
+    color: var(--color-error);
 }
 
 .stat-info {
@@ -225,7 +226,7 @@ body {
 .stat-number {
     font-size: 1.8rem;
     font-weight: 600;
-    color: white;
+    color: var(--color-text-light);
 }
 
 .stat-label {
@@ -266,8 +267,8 @@ body {
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
-    background: linear-gradient(135deg, #e8b007 0%, #ffc107 100%);
-    color: #020b12;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #ffc107 100%);
+    color: var(--color-bg-dark);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -290,19 +291,19 @@ body {
 
 .message-header h3 {
     font-size: 1rem;
-    color: white;
+    color: var(--color-text-light);
     margin: 0;
 }
 
 .message-date {
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.6);
-    white-space: nowrap;
+    var(--color-text-light)-space: nowrap;
 }
 
 .message-email {
     font-size: 0.85rem;
-    color: #e8b007;
+    color: var(--color-primary);
     margin-bottom: 0.25rem;
 }
 
@@ -338,12 +339,12 @@ body {
 
 .status-badge.unread {
     background: rgba(232, 176, 7, 0.2);
-    color: #e8b007;
+    color: var(--color-primary);
 }
 
 .status-badge.read {
     background: rgba(232, 176, 7, 0.2);
-    color: #e8b007;
+    color: var(--color-primary);
 }
 
 .view-btn,
@@ -361,7 +362,7 @@ body {
 
 .view-btn {
     background: rgba(232, 176, 7, 0.2);
-    color: #e8b007;
+    color: var(--color-primary);
 }
 
 .view-btn:hover {
@@ -370,7 +371,7 @@ body {
 
 .delete-btn {
     background: rgba(242, 87, 70, 0.2);
-    color: #f25746;
+    color: var(--color-error);
 }
 
 .delete-btn:hover {
@@ -408,7 +409,7 @@ body {
 
 .users-card h2 {
     font-size: 1.4rem;
-    color: white;
+    color: var(--color-text-light);
     margin-bottom: 1.5rem;
 }
 
@@ -438,8 +439,8 @@ body {
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
-    background: linear-gradient(135deg, #e8b007 0%, #ffc107 100%);
-    color: #020b12;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #ffc107 100%);
+    color: var(--color-bg-dark);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -455,7 +456,7 @@ body {
 .user-info h3 {
     margin: 0 0 0.25rem 0;
     font-size: 1rem;
-    color: white;
+    color: var(--color-text-light);
 }
 
 .user-info p {
@@ -469,7 +470,7 @@ body {
     padding: 0.3rem 0.8rem;
     border-radius: 0.4rem;
     background: rgba(232, 176, 7, 0.2);
-    color: #e8b007;
+    color: var(--color-primary);
     font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.2s;
@@ -484,8 +485,8 @@ body {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    background: #e8b007;
-    color: #020b12;
+    background: var(--color-primary);
+    color: var(--color-bg-dark);
     padding: 1rem 2rem;
     border-radius: 0.5rem;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -513,10 +514,10 @@ body {
 }
 
 .modal-content {
-    background-color: #020b12;
+    background-color: var(--color-bg-dark);
     margin: 10% auto;
     padding: 2rem;
-    border: 1px solid #e8b007;
+    border: 1px solid var(--color-primary);
     width: 50%;
     border-radius: 1rem;
     position: relative;
@@ -528,7 +529,7 @@ body {
     position: absolute;
     right: 1.5rem;
     top: 1rem;
-    color: #e8b007;
+    color: var(--color-primary);
     font-size: 2rem;
     cursor: pointer;
 }
@@ -546,7 +547,7 @@ body {
 }
 
 .view-room-link {
-    color: #e8b007;
+    color: var(--color-primary);
     text-decoration: none;
     font-weight: 600;
 }
@@ -569,8 +570,8 @@ body {
 }
 
 .confirm-btn {
-    background: #f25746;
-    color: white;
+    background: var(--color-error);
+    color: var(--color-text-light);
     border: none;
     padding: 0.7rem 1.5rem;
     border-radius: 0.4rem;
@@ -580,7 +581,7 @@ body {
 
 .cancel-btn {
     background: rgba(255, 255, 255, 0.1);
-    color: white;
+    color: var(--color-text-light);
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 0.7rem 1.5rem;
     border-radius: 0.4rem;
