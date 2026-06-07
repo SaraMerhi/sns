@@ -1,13 +1,4 @@
 @import "variables.css";
-:root {
-    --color-primary: var(--color-primary);
-    --color-bg-dark: var(--color-bg-dark);
-    --color-text-light: #ffffff;
-    --color-error: var(--color-error);
-    --border-light: 1px solid rgba(255, 255, 255, 0.1);
-    --border-dark: 1px solid rgba(0, 0, 0, 0.1);
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -21,9 +12,9 @@ body {
 }
 
 body {
-    font-family: "Poppins", sans-serif;
+    font-family: var(--font-main);
     background: var(--color-bg-dark);
-    color: var(--color-text-light);
+    color: white;
 }
 
 .editor-page {
@@ -74,7 +65,7 @@ body {
 }
 
 .panel-title a {
-    color: var(--color-text-light);
+    color: white;
     text-decoration: none;
     font-size: 1.4rem;
     transition: 0.2s;
@@ -139,7 +130,7 @@ body {
 
 .editor-top h1 {
     font-size: 1.2rem;
-    color: var(--color-text-light);
+    color: white;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -147,7 +138,7 @@ body {
 
 .view-tabs button {
     background: rgba(255, 255, 255, 0.05);
-    color: var(--color-text-light);
+    color: white;
     border: var(--border-light);
     padding: 0.6rem 1.2rem;
     border-radius: 0.5rem;
@@ -190,7 +181,7 @@ body {
 
 #clearBtn:hover {
     background: var(--color-error);
-    color: var(--color-text-light);
+    color: white;
 }
 
 #saveBtn {
@@ -200,7 +191,7 @@ body {
 }
 
 #saveBtn:hover {
-    background: #d4a006;
+    background: var(--color-primary-dark);
     transform: translateY(-2px);
 }
 
@@ -219,7 +210,7 @@ body {
     position: relative;
     width: 760px;
     height: 560px;
-    background: var(--color-text-light);
+    background: white;
     box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
     overflow: hidden;
 }
@@ -285,7 +276,7 @@ body {
 .control-group h3 {
     font-size: 0.9rem;
     margin-bottom: 1rem;
-    color: var(--color-text-light);
+    color: white;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -310,7 +301,7 @@ input[type="color"] {
     background: rgba(255, 255, 255, 0.05);
     cursor: pointer;
     padding: 0 0.5rem;
-    color: var(--color-text-light);
+    color: white;
     outline: none;
     transition: 0.2s;
 }
@@ -354,7 +345,7 @@ input[type="color"] {
     border: var(--border-light);
     border-radius: 0.7rem;
     background: rgba(255, 255, 255, 0.05);
-    color: var(--color-text-light);
+    color: white;
     cursor: pointer;
     font-weight: 700;
     transition: 0.2s;
@@ -365,7 +356,7 @@ input[type="color"] {
 }
 
 .back-category-btn:hover {
-    background: var(--color-text-light);
+    background: white;
     color: var(--color-bg-dark);
 }
 

@@ -314,9 +314,8 @@ function addFurnitureToRoom(imagePath, furnitureName, savedData = null) {
     let rotation = savedData ? savedData.rotationValue : 0;
     placedItem.style.transform = "rotate(" + rotation + "deg)";
 
-    // Only add controls if not admin
-    if (isAdmin !== 1) {
-        controls.innerHTML = `
+
+    controls.innerHTML = `
             <button class="control-btn rotate-left">↺</button>
             <button class="control-btn rotate-right">↻</button>
             <button class="control-btn bigger">＋</button>
@@ -324,58 +323,56 @@ function addFurnitureToRoom(imagePath, furnitureName, savedData = null) {
             <button class="control-btn delete-item">✕</button>
         `;
 
-        controls.querySelector(".rotate-left").addEventListener("click", function (event) {
-            event.stopPropagation();
-            rotation -= 90;
-            placedItem.style.transform = "rotate(" + rotation + "deg)";
-        });
+    controls.querySelector(".rotate-left").addEventListener("click", function (event) {
+        event.stopPropagation();
+        rotation -= 90;
+        placedItem.style.transform = "rotate(" + rotation + "deg)";
+    });
 
-        controls.querySelector(".rotate-right").addEventListener("click", function (event) {
-            event.stopPropagation();
-            rotation += 90;
-            placedItem.style.transform = "rotate(" + rotation + "deg)";
-        });
+    controls.querySelector(".rotate-right").addEventListener("click", function (event) {
+        event.stopPropagation();
+        rotation += 90;
+        placedItem.style.transform = "rotate(" + rotation + "deg)";
+    });
 
-        controls.querySelector(".bigger").addEventListener("click", function (event) {
-            event.stopPropagation();
+    controls.querySelector(".bigger").addEventListener("click", function (event) {
+        event.stopPropagation();
 
-            const newSize = wrapper.offsetWidth + 20;
+        const newSize = wrapper.offsetWidth + 20;
+
+        wrapper.style.width = newSize + "px";
+        wrapper.style.height = newSize + "px";
+    });
+
+    controls.querySelector(".smaller").addEventListener("click", function (event) {
+        event.stopPropagation();
+
+        if (wrapper.offsetWidth > 60) {
+            const newSize = wrapper.offsetWidth - 20;
 
             wrapper.style.width = newSize + "px";
             wrapper.style.height = newSize + "px";
-        });
+        }
+    });
 
-        controls.querySelector(".smaller").addEventListener("click", function (event) {
-            event.stopPropagation();
+    controls.querySelector(".delete-item").addEventListener("click", function (event) {
+        event.stopPropagation();
+        wrapper.remove();
+    });
 
-            if (wrapper.offsetWidth > 60) {
-                const newSize = wrapper.offsetWidth - 20;
+    wrapper.addEventListener("click", function (event) {
+        event.stopPropagation();
+        showControls(wrapper);
+    });
 
-                wrapper.style.width = newSize + "px";
-                wrapper.style.height = newSize + "px";
-            }
-        });
-
-        controls.querySelector(".delete-item").addEventListener("click", function (event) {
-            event.stopPropagation();
-            wrapper.remove();
-        });
-
-        wrapper.addEventListener("click", function (event) {
-            event.stopPropagation();
-            showControls(wrapper);
-        });
-    }
 
     wrapper.appendChild(controls);
     wrapper.appendChild(placedItem);
 
     roomBox.appendChild(wrapper);
 
-    // Only make movable if not admin
-    if (isAdmin !== 1) {
-        makeMovable(wrapper);
-    }
+    makeMovable(wrapper);
+
 }
 
 function makeMovable(item) {
@@ -432,9 +429,7 @@ function makeMovable(item) {
     });
 
     item.addEventListener("dblclick", function () {
-        if (isAdmin !== 1) {
-            item.remove();
-        }
+        item.remove();
     });
 }
 

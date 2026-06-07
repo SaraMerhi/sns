@@ -12,7 +12,7 @@
 
 <body>
 
-<div class="editor-page {% if is_admin == 1 %}admin-view{% endif %}" data-room="{{ room_name }}" data-id="{{ room_id }}">
+<div class="editor-page" data-room="{{ room_name }}" data-id="{{ room_id }}">
 
     <aside class="furniture-panel">
         <div class="panel-title">
@@ -26,19 +26,11 @@
     <main class="design-area">
 
         <div class="editor-top">
-            {% if is_admin == 1 %}
-            <button onclick="window.history.back()" style="padding: 0.6rem 1.2rem; background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 0.5rem; font-weight: 600; cursor: pointer;">
-                <i class="fas fa-arrow-left"></i> Back
-            </button>
-            {% else %}
             <div class="view-tabs">
                 <button id="nextBtn"><i class="fas fa-arrow-right"></i> Next</button>
             </div>
-            {% endif %}
 
-            {% if is_admin != 1 %}
             <h1>Create Your Own {{ room_title }}</h1>
-            {% endif %}
 
             <div class="tools">
                 <button id="clearBtn"><i class="fas fa-trash-alt"></i> Clear</button>
@@ -109,7 +101,6 @@
 <script>
     const roomName = "{{ room_name }}";
     const roomId = "{{ room_id }}";
-    const isAdmin = {{ is_admin }};
 </script>
 
 <script src="{{ url_for('static', filename='js/create-room.js') }}"></script>
