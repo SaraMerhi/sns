@@ -620,7 +620,7 @@ clearBtn.addEventListener("click", function () {
 });
 
 saveBtn.addEventListener("click", function () {
-    saveRoomToDatabase(false);
+    saveRoomToDatabase(true);
 });
 
 nextBtn.addEventListener("click", function () {
