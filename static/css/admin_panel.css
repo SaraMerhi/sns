@@ -20,7 +20,7 @@ body {
 .sidebar {
     width: 240px;
     background: 
-        linear-gradient(rgba(232, 176, 7, 0.6), rgba(232, 176, 7, 0.65)),
+        linear-gradient(rgba(255, 255, 255, 0.5), rgba(232, 176, 7, 0.65)),
         url("/static/images/background-main1.jpg");
     background-size: cover;
     background-position: center;

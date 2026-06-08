@@ -205,19 +205,14 @@ def new_room(room_type):
         return redirect("/signin")
 
     room_title = room_type.replace("-", " ").title()
-    count = Room.query.filter_by(user_id=session["user_id"], room_name=room_type).count()
-    display_title = f"{room_title} {count + 1}" if count > 0 else room_title
-
-    new_room = Room(
+    
+    return render_template(
+        "create_room.html",
+        room_id=0,
         room_name=room_type,
-        room_title=display_title,
-        room_data="[]",
-        user_id=session["user_id"]
+        room_title=room_title,
+        is_admin=session.get("is_admin")
     )
-    db.session.add(new_room)
-    db.session.commit()
-
-    return redirect(f"/edit-room/{new_room.id}")
 
 @login_required
 @app.route("/edit-room/<int:room_id>")
@@ -226,7 +221,7 @@ def edit_room(room_id):
     if not user_id:
         return redirect("/signin")
 
-    room = Room.query.filter_by(id=room_id).first_or_404()
+    room = Room.query.filter_by(id=room_id, user_id=user_id).first_or_404()
 
     return render_template(
         "create_room.html",
@@ -266,33 +261,57 @@ def save_room_data():
     room_data = data.get("room_data")
     room_title = data.get("room_title")
 
-    if not room_id:
-        return jsonify({
-            "success": False,
-            "message": "Room ID is missing"
-        })
+    if room_id == 0:
+        # Create new room
+        room_name = data.get("room_name", "bedroom")
+        room = Room(
+            room_name=room_name,
+            room_title=room_title or room_name.replace("-", " ").title(),
+            room_data=json.dumps(room_data),
+            user_id=session["user_id"]
+        )
+        db.session.add(room)
+    else:
+        room = Room.query.filter_by(
+            id=room_id,
+            user_id=session["user_id"]
+        ).first()
 
-    room = Room.query.filter_by(
-        id=room_id,
-        user_id=session["user_id"]
-    ).first()
+        if not room:
+            return jsonify({
+                "success": False,
+                "message": "Room not found"
+            })
 
-    if not room:
-        return jsonify({
-            "success": False,
-            "message": "Room not found"
-        })
+        if room_title:
+            room.room_title = room_title
+        room.room_data = json.dumps(room_data)
 
-    if room_title:
-        room.room_title = room_title
-
-    room.room_data = json.dumps(room_data)
     db.session.commit()
 
     return jsonify({
         "success": True,
-        "message": "Room saved successfully"
+        "message": "Room saved successfully",
+        "room_id": room.id
     })
+
+
+@login_required
+@app.route("/delete-room/<int:room_id>", methods=["POST"])
+def delete_room(room_id):
+    if "user_id" not in session:
+        return redirect("/signin")
+
+    room = Room.query.filter_by(
+        id=room_id,
+        user_id=session["user_id"]
+    ).first_or_404()
+
+    db.session.delete(room)
+    db.session.commit()
+
+    return redirect("/saved-rooms")
+
 
 @login_required
 @app.route("/saved-rooms")

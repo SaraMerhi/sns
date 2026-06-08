@@ -39,11 +39,14 @@
                     {% elif room.room_name == 'bathroom' %}
                         <img src="{{ url_for('static', filename='images/bathroom.png') }}" alt="Bathroom" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
                     {% else %}
-                        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Room Image" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+                        <img src="{{ url_for('static', filename='images/living-room.png') }}" alt="Room Image" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
                     {% endif %}
                     <h3>{{ room.room_title }}</h3>
                     <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 1.5rem;">Your saved {{ room.room_name }} design</p>
-                    <button onclick="window.location.href='/edit-room/{{ room.id }}'">Open Room</button>
+                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                        <button onclick="window.location.href='/edit-room/{{ room.id }}'">Open Room</button>
+                        <button class="delete-btn" onclick="confirmDelete('/delete-room/{{ room.id }}')">Delete</button>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
@@ -58,6 +61,41 @@
         </div>
     </main>
 </div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content confirm-modal-content">
+        <h2 style="color: #f25746; margin-bottom: 1rem;">Delete Room</h2>
+        <p>Are you sure you want to delete this room? This action cannot be undone.</p>
+        <div class="modal-actions">
+            <button class="cancel-btn" onclick="closeDeleteModal()">Cancel</button>
+            <form id="deleteForm" method="POST" style="display: inline;">
+                <button type="submit" class="confirm-btn">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmDelete(actionUrl) {
+        const modal = document.getElementById('deleteModal');
+        const form = document.getElementById('deleteForm');
+        form.action = actionUrl;
+        modal.style.display = 'block';
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        const modal = document.getElementById('deleteModal');
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+</script>
 
 </body>
 </html>

@@ -38,11 +38,35 @@ body {
 .furniture-panel {
     border-right: var(--border-light);
     padding: 20px;
+    overflow-y: auto;
 }
 
 .customize-panel {
     border-left: var(--border-light);
     padding: 20px;
+    overflow-y: auto;
+}
+
+/* Scrollbar Styling */
+.furniture-panel::-webkit-scrollbar,
+.customize-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.furniture-panel::-webkit-scrollbar-track,
+.customize-panel::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.furniture-panel::-webkit-scrollbar-thumb,
+.customize-panel::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 10px;
+}
+
+.furniture-panel::-webkit-scrollbar-thumb:hover,
+.customize-panel::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-dark);
 }
 
 .panel-title {

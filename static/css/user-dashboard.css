@@ -25,7 +25,7 @@ body {
 .sidebar {
     width: 240px;
     background:
-        linear-gradient(rgba(232, 176, 7, 0.6), rgba(232, 176, 7, 0.65)),
+        linear-gradient(rgba(255, 255, 255, 0.5), rgba(232, 176, 7, 0.65)),
         url("/static/images/background-main1.jpg");
     background-size: cover;
     background-position: center;
@@ -409,4 +409,119 @@ body {
     .room-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* TOAST ANIMATION FIX */
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.delete-btn {
+    background: rgba(242, 87, 70, 0.2) !important;
+    color: var(--color-error) !important;
+    border: 1px solid rgba(242, 87, 70, 0.3) !important;
+    padding: 0.7rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.delete-btn:hover {
+    background: var(--color-error) !important;
+    color: white !important;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: var(--color-bg-dark);
+    margin: 10% auto;
+    padding: 2rem;
+    border: 1px solid var(--color-primary);
+    width: 50%;
+    border-radius: 1rem;
+    position: relative;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.close-modal {
+    position: absolute;
+    right: 1.5rem;
+    top: 1rem;
+    color: var(--color-primary);
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.modal-room-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(232, 176, 7, 0.1);
+}
+
+.modal-room-item:last-child {
+    border-bottom: none;
+}
+
+.view-room-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.view-room-link:hover {
+    text-decoration: underline;
+}
+
+/* CONFIRM MODAL SPECIFIC */
+.confirm-modal-content {
+    width: 400px;
+    text-align: center;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.confirm-btn {
+    background: var(--color-error);
+    color: var(--color-text-light);
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.cancel-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-text-light);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.7rem 1.5rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
 }

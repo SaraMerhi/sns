@@ -490,22 +490,32 @@ function saveRoomToDatabase(goNext) {
     const roomData = collectRoomData();
     const roomTitle = roomTitleInput.value.trim() || "Untitled Room";
 
+    const payload = {
+        room_id: roomId,
+        room_data: roomData,
+        room_title: roomTitle
+    };
+
+    if (roomId === 0) {
+        payload.room_name = roomType;
+    }
+
     fetch("/save-room-data", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            room_id: roomId,
-            room_data: roomData,
-            room_title: roomTitle
-        })
+        body: JSON.stringify(payload)
     })
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
             if (data.success) {
+                if (data.room_id) {
+                    roomId = data.room_id;
+                }
+                
                 if (goNext) {
                     window.location.href = "/room-complete/" + roomId;
                 } else {
@@ -524,6 +534,10 @@ roomTitleInput.addEventListener("input", function () {
 });
 
 function loadSavedRoom() {
+    if (roomId === 0) {
+        return;
+    }
+    
     fetch("/get-room-data/" + roomId)
         .then(function (response) {
             return response.json();
@@ -610,7 +624,11 @@ saveBtn.addEventListener("click", function () {
 });
 
 nextBtn.addEventListener("click", function () {
-    saveRoomToDatabase(true);
+    if (roomId === 0) {
+        showToast("Please save your room before proceeding!");
+        return;
+    }
+    window.location.href = "/room-complete/" + roomId;
 });
 
 roomBox.addEventListener("click", function () {
