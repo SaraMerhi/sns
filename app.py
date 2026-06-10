@@ -22,7 +22,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from utils import valid_email, valid_password, valid_phone
 from datetime import datetime
 
-
 app = Flask(__name__)
 app.secret_key = "sns-roomify-secret-key"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///roomify.db"
@@ -62,6 +61,7 @@ class ContactUs(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 db.init_app(app)
 login_manager.init_app(app)
@@ -267,7 +267,9 @@ def delete_room(room_id):
 def saved_rooms():
     rooms = Room.query.filter_by(user_id=current_user.id).all()
 
-    return render_template("saved_rooms.html", rooms=rooms, active_page="saved_rooms")
+    return render_template(
+        "saved_rooms.html", user=current_user, rooms=rooms, active_page="saved_rooms"
+    )
 
 
 @login_required
@@ -289,7 +291,7 @@ def admin_dashboard():
 
     return render_template(
         "admin_dashboard.html",
-        username=current_user.username,
+        user=current_user,
         users=users,
         active_page="admin_users",
     )
@@ -306,7 +308,7 @@ def admin_contact_messages():
 
     return render_template(
         "admin_contact_messages.html",
-        username=current_user.username,
+        user=current_user,
         messages=messages,
         total_messages=total_messages,
         read_messages=read_messages,

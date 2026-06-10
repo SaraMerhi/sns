@@ -8,6 +8,7 @@ function showToast(message, type) {
     if (messageSpan) messageSpan.textContent = message;
     
     // Set icon and class based on type
+    console.log(type)
     toast.className = 'toast'; // reset
     if (type === 'error' || type === 'danger') {
         toast.classList.add('error');
@@ -15,7 +16,7 @@ function showToast(message, type) {
     } else if (type === 'success') {
         toast.classList.add('success');
         if (icon) icon.className = 'fas fa-check-circle toast-icon';
-    } else {
+    } else if (type === 'info') {
         toast.classList.add('info');
         if (icon) icon.className = 'fas fa-info-circle toast-icon';
     }
