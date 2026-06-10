@@ -1,101 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Saved Rooms | SNS Roomify</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/user-dashboard.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
+{% extends 'base_dashboard.html' %}
 
-<body>
+{% block title %}My Saved Rooms | SNS Roomify{% endblock %}
 
-<div class="admin-container">
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/user-dashboard.css') }}">
+{% endblock %}
 
-    {% include 'components/sidebar.html' %}
+{% block page_heading %}My Saved Rooms{% endblock %}
 
-    <main class="main-content">
-
-        <div class="top-bar">
-            <h1>My Saved Rooms</h1>
-            <div class="user-menu">
-                <i class="fas fa-user-circle"></i>
-                <span>{{ session.get('username', 'User') }}</span>
-            </div>
-        </div>
-
-        <div class="page-content">
-            {% if rooms %}
-            <div class="room-grid">
-                {% for room in rooms %}
-                <div class="room-card">
-                    {% if room.room_name == 'bedroom' %}
-                        <img src="{{ url_for('static', filename='images/bed.png') }}" alt="Bedroom" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
-                    {% elif room.room_name == 'livingroom' %}
-                        <img src="{{ url_for('static', filename='images/living-room.png') }}" alt="Living Room" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
-                    {% elif room.room_name == 'kitchen' %}
-                        <img src="{{ url_for('static', filename='images/kitchen.png') }}" alt="Kitchen" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
-                    {% elif room.room_name == 'bathroom' %}
-                        <img src="{{ url_for('static', filename='images/bathroom.png') }}" alt="Bathroom" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
-                    {% else %}
-                        <img src="{{ url_for('static', filename='images/living-room.png') }}" alt="Room Image" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
-                    {% endif %}
-                    <h3>{{ room.room_title }}</h3>
-                    <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 1.5rem;">Your saved {{ room.room_name }} design</p>
-                    <div style="display: flex; gap: 1rem; justify-content: center;">
-                        <button onclick="window.location.href='/edit-room/{{ room.id }}'">Open Room</button>
-                        <button class="delete-btn" onclick="confirmDelete('/delete-room/{{ room.id }}')">Delete</button>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            {% else %}
-            <div class="profile-section" style="background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.2); padding: 5rem 2rem;">
-                <div style="font-size: 5rem; margin-bottom: 1.5rem; opacity: 0.5;">🏡</div>
-                <h2>No Saved Rooms Yet</h2>
-                <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 2rem;">Create your first room and it will appear here.</p>
-                <button onclick="window.location.href='/user-dashboard'" style="background: #e8b007; color: #020b12; border: none; padding: 1rem 2.5rem; border-radius: 1rem; font-weight: 600; cursor: pointer;">Create Room Now</button>
-            </div>
-            {% endif %}
-        </div>
-    </main>
-</div>
-
-<!-- Delete Confirmation Modal -->
-<div id="deleteModal" class="modal">
-    <div class="modal-content confirm-modal-content">
-        <h2 style="color: #f25746; margin-bottom: 1rem;">Delete Room</h2>
-        <p>Are you sure you want to delete this room? This action cannot be undone.</p>
-        <div class="modal-actions">
-            <button class="cancel-btn" onclick="closeDeleteModal()">Cancel</button>
-            <form id="deleteForm" method="POST" style="display: inline;">
-                <button type="submit" class="confirm-btn">Delete</button>
-            </form>
+{% block content %}
+{% if rooms %}
+<div class="room-grid">
+    {% for room in rooms %}
+    <div class="room-card">
+        {% if room.room_name == 'bedroom' %}
+            <img src="{{ url_for('static', filename='images/bed.png') }}" alt="Bedroom" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+        {% elif room.room_name == 'livingroom' or room.room_name == 'living-room' %}
+            <img src="{{ url_for('static', filename='images/living-room.png') }}" alt="Living Room" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+        {% elif room.room_name == 'kitchen' %}
+            <img src="{{ url_for('static', filename='images/kitchen.png') }}" alt="Kitchen" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+        {% elif room.room_name == 'bathroom' %}
+            <img src="{{ url_for('static', filename='images/bathroom.png') }}" alt="Bathroom" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+        {% else %}
+            <img src="{{ url_for('static', filename='images/living-room.png') }}" alt="Room Image" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+        {% endif %}
+        <h3>{{ room.room_title }}</h3>
+        <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 1.5rem;">Your saved {{ room.room_name }} design</p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <button onclick="window.location.href='/edit-room/{{ room.id }}'">Open Room</button>
+            <button class="delete-btn" onclick="openConfirmModal('deleteRoomModal', { formAction: '/delete-room/{{ room.id }}' })">Delete</button>
         </div>
     </div>
+    {% endfor %}
 </div>
+{% else %}
+<div class="profile-section" style="background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.2); padding: 5rem 2rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+    <div style="font-size: 5rem; margin-bottom: 1.5rem; opacity: 0.5;">🏡</div>
+    <h2>No Saved Rooms Yet</h2>
+    <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 2rem;">Create your first room and it will appear here.</p>
+    <button onclick="window.location.href='/user-dashboard'" style="background: #e8b007; color: #020b12; border: none; padding: 1rem 2.5rem; border-radius: 1rem; font-weight: 600; cursor: pointer;">Create Room Now</button>
+</div>
+{% endif %}
+{% endblock %}
 
-<script>
-    function confirmDelete(actionUrl) {
-        const modal = document.getElementById('deleteModal');
-        const form = document.getElementById('deleteForm');
-        form.action = actionUrl;
-        modal.style.display = 'block';
-    }
+{% block modals %}
+{% from 'components/modal.html' import confirm_modal %}
+{{ confirm_modal(
+    id='deleteRoomModal',
+    title='Delete Room',
+    message='Are you sure you want to delete this room? This action cannot be undone.',
+    confirm_text='Delete',
+    form_id='deleteRoomForm'
+) }}
+{% endblock %}
 
-    function closeDeleteModal() {
-        document.getElementById('deleteModal').style.display = 'none';
-    }
-
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-        const modal = document.getElementById('deleteModal');
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    }
-</script>
-
-</body>
-</html>
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/modal.js') }}"></script>
+{% endblock %}

@@ -5,7 +5,6 @@ const furnitureList = document.querySelector("#furnitureList");
 const roomBox = document.querySelector("#roomBox");
 const clearBtn = document.querySelector("#clearBtn");
 const saveBtn = document.querySelector("#saveBtn");
-const nextBtn = document.querySelector("#nextBtn");
 
 const topWall = document.querySelector("#topWall");
 const leftWall = document.querySelector("#leftWall");
@@ -475,18 +474,7 @@ function collectRoomData() {
     };
 }
 
-function showToast(message) {
-    const toast = document.getElementById('toast');
-    if (toast) {
-        toast.textContent = message;
-        toast.style.display = 'block';
-        setTimeout(() => {
-            toast.style.display = 'none';
-        }, 3000);
-    }
-}
-
-function saveRoomToDatabase(goNext) {
+function saveRoomToDatabase() {
     const roomData = collectRoomData();
     const roomTitle = roomTitleInput.value.trim() || "Untitled Room";
 
@@ -516,13 +504,13 @@ function saveRoomToDatabase(goNext) {
                     roomId = data.room_id;
                 }
                 
-                if (goNext) {
+                showToast("Room saved successfully!", "success");
+                
+                setTimeout(() => {
                     window.location.href = "/room-complete/" + roomId;
-                } else {
-                    showToast("Room saved successfully!");
-                }
+                }, 1000);
             } else {
-                showToast(data.message);
+                showToast(data.message, "error");
             }
         });
 }
@@ -551,7 +539,6 @@ function loadSavedRoom() {
             let furniture = [];
             let colors = null;
 
-            // Handle both old array format and new object format
             if (Array.isArray(data.room_data)) {
                 furniture = data.room_data;
             } else {
@@ -559,7 +546,6 @@ function loadSavedRoom() {
                 colors = data.room_data.colors;
             }
 
-            // Restore furniture
             for (let i = 0; i < furniture.length; i++) {
                 const item = furniture[i];
                 addFurnitureToRoom(item.image, item.name, item);
@@ -620,16 +606,9 @@ clearBtn.addEventListener("click", function () {
 });
 
 saveBtn.addEventListener("click", function () {
-    saveRoomToDatabase(true);
+    saveRoomToDatabase();
 });
 
-nextBtn.addEventListener("click", function () {
-    if (roomId === 0) {
-        showToast("Please save your room before proceeding!");
-        return;
-    }
-    window.location.href = "/room-complete/" + roomId;
-});
 
 roomBox.addEventListener("click", function () {
     const allWrappers = document.querySelectorAll(".placed-item-wrapper");

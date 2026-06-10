@@ -1,109 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create {{ room_title }} | SNS Roomify</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/create-room.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/create-room.css') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
 
-<body>
-
-<div class="editor-page" data-room="{{ room_name }}" data-id="{{ room_id }}">
-
-    <aside class="furniture-panel">
+  <body>
+    <div class="editor-page" data-room="{{ room_name }}" data-id="{{ room_id }}">
+      <aside class="furniture-panel">
         <div class="panel-title">
-            <h2><i class="fas fa-couch"></i> Furniture</h2>
-            <a href="/user-dashboard" title="Back to Dashboard"><i class="fas fa-times"></i></a>
+          <h2><i class="fas fa-couch"></i> Furniture</h2>
+          <a href="/user-dashboard" class="exit-link" title="Back to Dashboard" onclick="confirmExit(event)"><i class="fas fa-times"></i></a>
         </div>
 
         <div id="furnitureList"></div>
-    </aside>
+      </aside>
 
-    <main class="design-area">
-
+      <main class="design-area">
         <div class="editor-top">
-            <div class="view-tabs">
-                <button id="nextBtn"><i class="fas fa-arrow-right"></i> Next</button>
-            </div>
+          <h1>Create Your Own {{ room_title }}</h1>
 
-            <h1>Create Your Own {{ room_title }}</h1>
-
-            <div class="tools">
-                <button id="clearBtn"><i class="fas fa-trash-alt"></i> Clear</button>
-                <button id="saveBtn"><i class="fas fa-save"></i> Save</button>
-            </div>
+          <div class="tools">
+            <button id="clearBtn"><i class="fas fa-trash-alt"></i> Clear</button>
+            <button id="saveBtn"><i class="fas fa-save"></i> Save</button>
+          </div>
         </div>
 
         <div class="room-wrapper">
-            <div class="room" id="roomBox">
+          <div class="room" id="roomBox">
+            <div class="wall wall-top" id="topWall"></div>
+            <div class="wall wall-left" id="leftWall"></div>
+            <div class="wall wall-right" id="rightWall"></div>
+            <div class="wall wall-bottom" id="bottomWall"></div>
 
-                <div class="wall wall-top" id="topWall"></div>
-                <div class="wall wall-left" id="leftWall"></div>
-                <div class="wall wall-right" id="rightWall"></div>
-                <div class="wall wall-bottom" id="bottomWall"></div>
-
-                <div class="floor" id="floorArea"></div>
-
-            </div>
+            <div class="floor" id="floorArea"></div>
+          </div>
         </div>
+      </main>
 
-    </main>
-
-    <aside class="customize-panel">
+      <aside class="customize-panel">
         <div class="panel-title">
-            <h2><i class="fas fa-sliders-h"></i> Customize</h2>
-            <a href="/user-dashboard" title="Back to Dashboard"><i class="fas fa-times"></i></a>
+          <h2><i class="fas fa-sliders-h"></i> Customize</h2>
+          <a href="/user-dashboard" class="exit-link" title="Back to Dashboard" onclick="confirmExit(event)"><i class="fas fa-times"></i></a>
         </div>
 
         <div class="control-group">
-            <h3>Room Info</h3>
-            <label>Design Name</label>
-            <input type="text" id="roomTitleInput" value="{{ room_title }}" placeholder="e.g. My Dream Bedroom" style="width: 100%; padding: 0.8rem; border-radius: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; outline: none;">
+          <h3>Room Info</h3>
+          <label>Design Name</label>
+          <input type="text" id="roomTitleInput" value="{{ room_title }}" placeholder="e.g. My Dream Bedroom" style="width: 100%; padding: 0.8rem; border-radius: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; outline: none;" />
         </div>
 
         <div class="control-group">
-            <h3>Wall Colors</h3>
+          <h3>Wall Colors</h3>
 
-            <label>Top Wall</label>
-            <input type="color" id="topWallColor" value="#e8dfd2">
+          <label>Top Wall</label>
+          <input type="color" id="topWallColor" value="#e8dfd2" />
 
-            <label>Left Wall</label>
-            <input type="color" id="leftWallColor" value="#d8cec0">
+          <label>Left Wall</label>
+          <input type="color" id="leftWallColor" value="#d8cec0" />
 
-            <label>Right Wall</label>
-            <input type="color" id="rightWallColor" value="#d8cec0">
+          <label>Right Wall</label>
+          <input type="color" id="rightWallColor" value="#d8cec0" />
 
-            <label>Bottom Wall</label>
-            <input type="color" id="bottomWallColor" value="#2b2b2b">
+          <label>Bottom Wall</label>
+          <input type="color" id="bottomWallColor" value="#2b2b2b" />
         </div>
 
         <div class="control-group">
-            <h3>Flooring</h3>
+          <h3>Flooring</h3>
 
-            <label>Floor Color</label>
-            <input type="color" id="floorColor" value="#c7a77c">
+          <label>Floor Color</label>
+          <input type="color" id="floorColor" value="#c7a77c" />
         </div>
 
-        <p class="hint">
-            Drag furniture into the room. Double click furniture to remove it.
-        </p>
-    </aside>
+        <p class="hint">Drag furniture into the room. Double click furniture to remove it.</p>
+      </aside>
+    </div>
 
-</div>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+      <i class="fas fa-info-circle toast-icon"></i>
+      <span class="toast-message"></span>
+    </div>
 
-<!-- Toast Notification -->
-<div id="toast" class="toast"></div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script id="flash-messages-data" type="application/json">
+                {{ messages | tojson }}
+            </script>
+        {% endif %}
+    {% endwith %}
 
-<script>
+    <script src="/static/js/toast.js"></script>
+
+
+    <!-- Exit Confirmation Modal -->
+    <div id="exitModal" class="modal">
+      <div class="modal-content confirm-modal-content">
+        <h2>Leave Editor?</h2>
+        <p>Are you sure you want to exit? Any unsaved changes will be lost.</p>
+        <div class="modal-actions">
+          <button type="button" class="cancel-btn" onclick="closeExitModal()">Cancel</button>
+          <button type="button" class="leave-btn" onclick="window.location.href='/user-dashboard'">Leave</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
     const roomName = "{{ room_name }}";
     let roomId = {{ room_id }};
 </script>
 
-<script src="{{ url_for('static', filename='js/create-room.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/create-room.js') }}"></script>
 
-</body>
+    <script>
+    function confirmExit(event) {
+        event.preventDefault();
+        document.getElementById('exitModal').style.display = 'block';
+    }
+
+    function closeExitModal() {
+        document.getElementById('exitModal').style.display = 'none';
+    }
+
+    window.addEventListener('click', function(event) {
+        const modal = document.getElementById('exitModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+</script>
+  </body>
 </html>

@@ -1,106 +1,63 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Panel</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_panel.css') }}">
-</head>
-<body>
-    <div class="admin-container">
-        {% include 'components/sidebar.html' %}
+{% extends 'base_dashboard.html' %}
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Top Bar -->
-            <div class="top-bar">
-                <h1>Admin Panel</h1>
-                <div class="user-menu">
-                    <i class="fas fa-user-circle"></i>
-                    <span>{{ username }}</span>
-                </div>
+{% block title %}Admin Panel | SNS Roomify{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_panel.css') }}">
+{% endblock %}
+
+{% block page_heading %}Admin Panel{% endblock %}
+
+{% block content %}
+<section class="welcome-box">
+    <h1>Welcome {{ username }}</h1>
+    <p>Manage users and monitor contact messages.</p>
+</section>
+
+<section class="panel-section">
+    <h2>Registered Users</h2>
+
+    <div class="users-container">
+        {% for user in users %}
+        <div class="user-row">
+            <div class="user-avatar">
+                {{ user.username[0].upper() }}
+            </div>
+            <div class="user-info">
+                <h3>{{ user.username }}</h3>
+                <p>{{ user.email }}</p>
             </div>
 
-            <!-- Page Content -->
-            <div class="page-content">
-                <div class="page-header">
-                    <p>Welcome to the admin panel. Manage users and monitor contact messages.</p>
-                </div>
-
-                <!-- Users Section -->
-                <div class="users-card">
-                    <h2>Registered Users</h2>
-
-                    <div class="users-container">
-                        {% for user in users %}
-                        <div class="user-row">
-                            <div class="user-avatar">
-                                {{ user.username[0].upper() }}
-                            </div>
-                            <div class="user-info">
-                                <h3>{{ user.username }}</h3>
-                                <p>{{ user.email }}</p>
-                            </div>
-
-                            {% if user.is_admin != 1 %}
-                            <button type="button" class="delete-btn" onclick="confirmDeleteUser('/delete-user/{{ user.id }}', '{{ user.username }}')">Delete</button>
-                            {% endif %}
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="toast"></div>
-
-    <!-- Delete User Confirmation Modal -->
-    <div id="deleteUserModal" class="modal">
-        <div class="modal-content confirm-modal-content">
-            <h2 style="color: #f25746; margin-bottom: 1rem;">Delete User</h2>
-            <p id="deleteUserMessage">Are you sure you want to delete this user?</p>
-            <div class="modal-actions">
-                <button class="cancel-btn" onclick="closeDeleteUserModal()">Cancel</button>
-                <form id="deleteUserForm" method="POST" style="display: inline;">
-                    <button type="submit" class="confirm-btn">Delete</button>
-                </form>
-            </div>
+            {% if user.is_admin != 1 %}
+            <button type="button" class="delete-btn" onclick="confirmDeleteUser('/delete-user/{{ user.id }}', '{{ user.username }}')">Delete</button>
+            {% endif %}
         </div>
+        {% endfor %}
     </div>
+</section>
+{% endblock %}
 
-    <script>
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.style.display = 'block';
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 3000);
-        }
+{% block modals %}
+{% from 'components/modal.html' import confirm_modal %}
+{{ confirm_modal(
+    id='deleteUserModal',
+    title='Delete User',
+    message='Are you sure you want to delete this user?',
+    confirm_text='Delete',
+    form_id='deleteUserForm',
+    message_id='deleteUserMessage'
+) }}
+{% endblock %}
 
-        function confirmDeleteUser(actionUrl, username) {
-            const modal = document.getElementById('deleteUserModal');
-            const form = document.getElementById('deleteUserForm');
-            const message = document.getElementById('deleteUserMessage');
-            
-            form.action = actionUrl;
-            message.textContent = `Are you sure you want to delete the user "${username}"? This action cannot be undone and will delete all their saved rooms.`;
-            modal.style.display = 'block';
-        }
-
-        function closeDeleteUserModal() {
-            document.getElementById('deleteUserModal').style.display = 'none';
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const deleteModal = document.getElementById('deleteUserModal');
-            
-            if (event.target == deleteModal) {
-                deleteModal.style.display = 'none';
-            }
-        }
-    </script>
-</body>
-</html>
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/modal.js') }}"></script>
+<script>
+    function confirmDeleteUser(actionUrl, username) {
+        openConfirmModal('deleteUserModal', {
+            formAction: actionUrl,
+            messageId: 'deleteUserMessage',
+            message: `Are you sure you want to delete the user "${username}"? This action cannot be undone and will delete all their saved rooms.`
+        });
+    }
+</script>
+{% endblock %}
