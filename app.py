@@ -54,7 +54,8 @@ class ContactUs(db.Model):
     email = db.Column(db.String(120), nullable=False)
     subject = db.Column(db.String(200), nullable=False)
     message = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    created_at = db.Column(
+        db.DateTime, default=datetime.utcnow, nullable=False)
     is_read = db.Column(db.Integer, default=0, nullable=False)
 
 
@@ -163,22 +164,22 @@ def signup():
     return render_template("signup.html", error_message=error_message)
 
 
-@login_required
 @app.route("/profile")
+@login_required
 def profile():
     return render_template("profile.html", user=current_user, active_page="profile")
 
 
-@login_required
 @app.route("/user-dashboard")
+@login_required
 def user_dashboard():
     return render_template(
         "user_dashboard.html", user=current_user, active_page="user_dashboard"
     )
 
 
-@login_required
 @app.route("/new-room/<room_type>")
+@login_required
 def new_room(room_type):
     room_title = room_type.replace("-", " ").title()
 
@@ -187,10 +188,11 @@ def new_room(room_type):
     )
 
 
-@login_required
 @app.route("/edit-room/<int:room_id>")
+@login_required
 def edit_room(room_id):
-    room = Room.query.filter_by(id=room_id, user_id=current_user.id).first_or_404()
+    room = Room.query.filter_by(
+        id=room_id, user_id=current_user.id).first_or_404()
 
     return render_template(
         "create_room.html",
@@ -200,10 +202,11 @@ def edit_room(room_id):
     )
 
 
-@login_required
 @app.route("/room-complete/<int:room_id>")
+@login_required
 def room_complete(room_id):
-    room = Room.query.filter_by(id=room_id, user_id=current_user.id).first_or_404()
+    room = Room.query.filter_by(
+        id=room_id, user_id=current_user.id).first_or_404()
 
     return render_template(
         "room_complete.html",
@@ -213,8 +216,8 @@ def room_complete(room_id):
     )
 
 
-@login_required
 @app.route("/save-room-data", methods=["POST"])
+@login_required
 def save_room_data():
     data = request.get_json()
 
@@ -233,7 +236,8 @@ def save_room_data():
         )
         db.session.add(room)
     else:
-        room = Room.query.filter_by(id=room_id, user_id=current_user.id).first()
+        room = Room.query.filter_by(
+            id=room_id, user_id=current_user.id).first()
 
         if not room:
             return jsonify({"success": False, "message": "Room not found"})
@@ -249,10 +253,11 @@ def save_room_data():
     )
 
 
-@login_required
 @app.route("/delete-room/<int:room_id>", methods=["POST"])
+@login_required
 def delete_room(room_id):
-    room = Room.query.filter_by(id=room_id, user_id=current_user.id).first_or_404()
+    room = Room.query.filter_by(
+        id=room_id, user_id=current_user.id).first_or_404()
 
     room_title = room.room_title
     db.session.delete(room)
@@ -262,8 +267,8 @@ def delete_room(room_id):
     return redirect(url_for("saved_rooms"))
 
 
-@login_required
 @app.route("/saved-rooms")
+@login_required
 def saved_rooms():
     rooms = Room.query.filter_by(user_id=current_user.id).all()
 
@@ -272,8 +277,8 @@ def saved_rooms():
     )
 
 
-@login_required
 @app.route("/get-room-data/<int:room_id>")
+@login_required
 def get_room_data(room_id):
     room = Room.query.filter_by(id=room_id, user_id=current_user.id).first()
 
@@ -283,9 +288,9 @@ def get_room_data(room_id):
     return jsonify({"success": True, "room_data": json.loads(room.room_data or "[]")})
 
 
-@login_required
 @app.route("/admin-dashboard")
 @app.route("/admin-users")
+@login_required
 def admin_dashboard():
     users = User.query.filter(User.is_admin != 1).all()
 
@@ -297,8 +302,8 @@ def admin_dashboard():
     )
 
 
-@login_required
 @app.route("/admin-contact-messages")
+@login_required
 def admin_contact_messages():
 
     messages = ContactUs.query.order_by(ContactUs.created_at.desc()).all()
@@ -319,8 +324,8 @@ def admin_contact_messages():
     )
 
 
-@login_required
 @app.route("/admin-mark-message-read/<int:message_id>", methods=["POST"])
+@login_required
 def admin_mark_message_read(message_id):
     if int(current_user.is_admin) != 1:
         flash("Access denied", "error")
@@ -337,8 +342,8 @@ def admin_mark_message_read(message_id):
     return redirect(url_for("admin_contact_messages"))
 
 
-@login_required
 @app.route("/admin-delete-message/<int:message_id>", methods=["POST"])
+@login_required
 def admin_delete_message(message_id):
     if int(current_user.is_admin) != 1:
         flash("Access denied", "error")
@@ -353,8 +358,8 @@ def admin_delete_message(message_id):
     return redirect(url_for("admin_contact_messages"))
 
 
-@login_required
 @app.route("/delete-user/<int:user_id>", methods=["POST"])
+@login_required
 def delete_user(user_id):
     if int(current_user.is_admin) != 1:
         flash("Access denied", "error")
@@ -369,8 +374,8 @@ def delete_user(user_id):
     return redirect(url_for("admin_dashboard"))
 
 
-@login_required
 @app.route("/update-profile", methods=["POST"])
+@login_required
 def update_profile():
     user = User.query.get(current_user.id)
 
@@ -390,7 +395,8 @@ def update_profile():
         flash("Please enter a valid phone number", "error")
         return redirect(url_for("profile"))
 
-    existing_user = User.query.filter(User.email == email, User.id != user.id).first()
+    existing_user = User.query.filter(
+        User.email == email, User.id != user.id).first()
 
     if existing_user:
         flash("This email already has an account", "error")
@@ -408,8 +414,8 @@ def update_profile():
     return redirect(url_for("profile"))
 
 
-@login_required
 @app.route("/reset-password", methods=["POST"])
+@login_required
 def reset_password():
     user = User.query.get(current_user.id)
 
@@ -458,7 +464,8 @@ def submit_contact():
         flash("Email must end with @gmail.com or @usal.edu.lb", "error")
         return redirect(url_for("contact"))
 
-    contact_us = ContactUs(name=name, email=email, subject=subject, message=message)
+    contact_us = ContactUs(name=name, email=email,
+                           subject=subject, message=message)
     db.session.add(contact_us)
     db.session.commit()
 
@@ -466,8 +473,8 @@ def submit_contact():
     return redirect(url_for("contact"))
 
 
-@login_required
 @app.route("/logout")
+@login_required
 def logout():
     logout_user()
     session.clear()

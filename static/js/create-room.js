@@ -160,22 +160,52 @@ const furnitureByRoom = {
         "Bath": [
             "/static/images/bathroom/bath/bath.png",
             "/static/images/bathroom/bath/bath-1.png",
+            "/static/images/bathroom/bath/bath-2.png",
+            "/static/images/bathroom/bath/bath-3.png",
         ],
         "Shower": [
             "/static/images/bathroom/shower/shower.png",
             "/static/images/bathroom/shower/shower-1.png",
             "/static/images/bathroom/shower/shower-2.png",
+            "/static/images/bathroom/shower/shower-3.png",
         ],
         "Toilet": [
             "/static/images/bathroom/toilet/toilet.png",
             "/static/images/bathroom/toilet/toilet-1.png",
             "/static/images/bathroom/toilet/toilet-2.png",
+            "/static/images/bathroom/toilet/toilet-3.png",
         ],
         "Sink": [
             "/static/images/bathroom/sink/sink.png",
             "/static/images/bathroom/sink/sink-1.png",
             "/static/images/bathroom/sink/sink-2.png",
-        ]
+            "/static/images/bathroom/sink/sink-3.png",
+        ],
+        "Rug": [
+            "/static/images/livingroom/Rag1.png",
+            "/static/images/livingroom/Rag2.png",
+            "/static/images/livingroom/Rag3.png",
+            "/static/images/livingroom/Rag4.png",
+            "/static/images/livingroom/Rag5.png",
+            "/static/images/livingroom/Rag6.png",
+            "/static/images/livingroom/Rag8.png",
+            "/static/images/livingroom/Rag9.png",
+        ],
+        "Plant": [
+            "/static/images/livingroom/plant1.png",
+            "/static/images/livingroom/plant2.png",
+            "/static/images/livingroom/plant3.png",
+            "/static/images/livingroom/plant4.png",
+            "/static/images/livingroom/plant5.png",],
+
+        "Closet": [
+            "/static/images/bedroom/closet1.png",
+            "/static/images/bedroom/closet2.png",
+            "/static/images/bedroom/closet3.png",
+            "/static/images/bedroom/closet4.png",
+            "/static/images/bedroom/closet5.png",
+        ],
+
     },
 
     "kitchen": {
@@ -183,11 +213,15 @@ const furnitureByRoom = {
             "/static/images/kitchen/table/table.png",
             "/static/images/kitchen/table/table-1.png",
             "/static/images/kitchen/table/table-2.png",
-            "/static/images/kitchen/table/table-3.png"],
+            "/static/images/kitchen/table/table-3.png",
+            "/static/images/kitchen/table/table-4.png",
+        ],
         "Stove": [
             "/static/images/kitchen/stove/stove.png",
             "/static/images/kitchen/stove/stove-1.png",
             "/static/images/kitchen/stove/stove-2.png",
+            "/static/images/kitchen/stove/stove-3.png",
+            "/static/images/kitchen/stove/stove-4.png",
         ],
         "Fridge": [
             "/static/images/kitchen/fridge/fridge.png",
@@ -198,31 +232,58 @@ const furnitureByRoom = {
             "/static/images/kitchen/sink/sink.png",
             "/static/images/kitchen/sink/sink-1.png",
             "/static/images/kitchen/sink/sink-2.png",
+            "/static/images/kitchen/sink/sink-3.png",
+            "/static/images/kitchen/sink/sink-4.png",
+        ],
+        "Plant": [
+            "/static/images/livingroom/plant1.png",
+            "/static/images/livingroom/plant2.png",
+            "/static/images/livingroom/plant3.png",],
+
+        "Lamp": [
+            "/static/images/livingroom/lamp1.png",
+            "/static/images/livingroom/lamp2.png",
+            "/static/images/livingroom/lamp4.png",
+            "/static/images/livingroom/lamp5-removebg-preview.png",],
+
+        "Rug": [
+            "/static/images/livingroom/Rag1.png",
+            "/static/images/livingroom/Rag2.png",
+            "/static/images/livingroom/Rag3.png",
+            "/static/images/livingroom/Rag4.png",
+            "/static/images/livingroom/Rag5.png",
+            "/static/images/livingroom/Rag6.png",
+            "/static/images/livingroom/Rag8.png",
+            "/static/images/livingroom/Rag9.png",
+
         ]
+
+
+
     }
+
 };
 
 const categoryIcons = {
-    "Bed": "🛏️",
-    "Bedside Table": "🟤",
-    "Closet": "🚪",
-    "Arm Chair": "🪑",
-    "Lamp": "💡",
-    "Plant": "🪴",
-    "Rug": "▭",
-    "Sofa": "🛋️",
-    "Table": "🟤",
-    "TV Table": "▰",
-    "TV": "📺",
-    "Coming Soon": "🚧",
-    "Desk": "🖥️",
-    "Pouf": "🟣",
-    "Bath": "🛁",
-    "Shower": "🚿",
-    "Toilet": "🚽",
-    "Sink": "🚰",
-    "Stove": "🍳",
-    "Fridge": "🧊"
+    "Bed": "/static/images/categoryIcons/bed.png",
+    "Bedside Table": "/static/images/categoryIcons/bedsideTable.png",
+    "Closet": "/static/images/categoryIcons/closet.png",
+    "Arm Chair": "/static/images/categoryIcons/arm-chair.png",
+    "Lamp": "/static/images/categoryIcons/lamp.png",
+    "Plant": "/static/images/categoryIcons/plant.png",
+    "Rug": "/static/images/categoryIcons/rug.png",
+    "Sofa": "/static/images/categoryIcons/sofa.png",
+    "Table": "/static/images/categoryIcons/table.png",
+    "TV Table": "/static/images/categoryIcons/tv-table.png",
+    "TV": "/static/images/categoryIcons/tv.png",
+    "Desk": "/static/images/categoryIcons/desk.png",
+    "Pouf": "/static/images/categoryIcons/pouf.png",
+    "Bath": "/static/images/categoryIcons/bath.png",
+    "Shower": "/static/images/categoryIcons/shower.png",
+    "Toilet": "/static/images/categoryIcons/toilet.png",
+    "Sink": "/static/images/categoryIcons/sink.png",
+    "Stove": "/static/images/categoryIcons/stove.png",
+    "Fridge": "/static/images/categoryIcons/fridge.png"
 
 };
 
@@ -236,8 +297,13 @@ function loadFurnitureCategories() {
         const item = document.createElement("div");
         item.classList.add("furniture-item");
 
+        const iconValue = categoryIcons[categoryName];
+        const iconHtml = iconValue && (typeof iconValue === "string") && iconValue.match(/\.(png|jpg|jpeg|svg|gif)$/i)
+            ? `<img src="${iconValue}" alt="${categoryName}" class="category-icon-img">`
+            : iconValue || "";
+
         item.innerHTML = `
-            <span class="furniture-icon">${categoryIcons[categoryName]}</span>
+            <span class="furniture-icon">${iconHtml}</span>
             <span class="furniture-name">${categoryName}</span>
         `;
 
@@ -503,9 +569,9 @@ function saveRoomToDatabase() {
                 if (data.room_id) {
                     roomId = data.room_id;
                 }
-                
+
                 showToast("Room saved successfully!", "success");
-                
+
                 setTimeout(() => {
                     window.location.href = "/room-complete/" + roomId;
                 }, 1000);
@@ -525,7 +591,7 @@ function loadSavedRoom() {
     if (roomId === 0) {
         return;
     }
-    
+
     fetch("/get-room-data/" + roomId)
         .then(function (response) {
             return response.json();

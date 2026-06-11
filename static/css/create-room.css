@@ -1,5 +1,6 @@
 @import "variables.css";
 @import "modal.css";
+
 * {
     margin: 0;
     padding: 0;
@@ -125,6 +126,13 @@ body {
     font-size: 1.8rem;
     width: 40px;
     text-align: center;
+}
+
+.category-icon-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    display: inline-block;
 }
 
 .furniture-name {
@@ -450,5 +458,3 @@ input[type="color"] {
     line-height: 1.5;
     text-align: center;
 }
-
-
