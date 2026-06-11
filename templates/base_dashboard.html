@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SNS Roomify{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% block extra_css %}{% endblock %}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        {% include 'components/sidebar.html' %}
+
+        <main class="main-content">
+            <div class="top-bar">
+                <h1>{% block page_heading %}Dashboard{% endblock %}</h1>
+                <div class="user-menu">
+                    <i class="fas fa-user-circle"></i>
+                    <span>{% block user_name %}{{ user.username }}{% endblock %}</span>
+                </div>
+            </div>
+
+            <div class="page-content">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    {% block after_content %}{% endblock %}
+
+    <div id="toast" class="toast">
+        <i class="fas fa-info-circle toast-icon"></i>
+        <span class="toast-message"></span>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script id="flash-messages-data" type="application/json">
+                {{ messages | tojson }}
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <script src="{{ url_for('static', filename='js/toast.js') }}"></script>
+
+
+    {% block modals %}{% endblock %}
+    {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,55 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base_dashboard.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Settings | SNS Roomify</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/user-dashboard.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-</head>
+{% block title %}Profile Settings | SNS Roomify{% endblock %}
 
-<body>
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/user-dashboard.css') }}" />
+{% endblock %}
 
-    <div class="admin-container">
+{% block page_heading %}Profile Settings{% endblock %}
 
-        {% include 'components/sidebar.html' %}
+{% block content %}
+<section class="profile-section">
+    <h2>Account Information</h2>
+    <p>Update your account details below</p>
 
-        <main class="main-content">
+    <form id="profileForm" method="POST" action="/update-profile">
+        <input type="text" name="username" placeholder="Username" value="{{ user.username }}" required />
+        <input type="email" name="email" placeholder="Email" value="{{ user.email }}" required />
+        <input type="tel" name="phone" placeholder="Phone Number" value="{{ user.phone }}" required />
+        <div class="form-actions">
+            <button type="submit">Save Changes</button>
+        </div>
+    </form>
+</section>
 
-            <div class="top-bar">
-                <h1>Profile Settings</h1>
-                <div class="user-menu">
-                    <i class="fas fa-user-circle"></i>
-                    <span>{{ user.username }}</span>
-                </div>
-            </div>
+<section class="profile-section">
+    <h2>Reset Password</h2>
+    <p>Enter your new password below</p>
 
-            <div class="page-content">
-                <section class="profile-section">
-                    <h2>Account Information</h2>
-                    <p>Update your account details below</p>
+    <form id="resetPasswordForm" method="POST" action="/reset-password">
+        <input type="password" name="new_password" placeholder="New Password" required />
+        <input type="password" name="confirm_password" placeholder="Confirm New Password" required />
+        <div class="form-actions">
+            <button type="submit">Reset Password</button>
+        </div>
+    </form>
+</section>
+{% endblock %}
 
-                    <form id="profileForm">
-                        <input type="text" id="profileUsername" name="username" placeholder="Username"
-                            value="{{ user.username }}">
-                        <input type="email" id="profileEmail" name="email" placeholder="Email" value="{{ user.email }}">
-                        <input type="password" id="profilePassword" name="password" placeholder="Password"
-                            value="{{ user.password }}">
-                        <button type="submit">Save Changes</button>
-                    </form>
-                </section>
-            </div>
-        </main>
-    </div>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="toast"></div>
-
-    <script src="{{ url_for('static', filename='js/user-dashboard.js') }}"></script>
-
-</body>
-
-</html>
+{% block scripts %}
+<script>
+    // No extra scripts needed as base_dashboard handles flashed messages
+</script>
+{% endblock %}

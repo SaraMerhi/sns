@@ -1,81 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base_dashboard.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Panel | SNS Roomify</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/user-dashboard.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-</head>
+{% block title %}User Panel | SNS Roomify{% endblock %}
 
-<body>
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/user-dashboard.css') }}">
+{% endblock %}
 
-    <div class="admin-container">
+{% block page_heading %}User Panel{% endblock %}
 
-        {% include 'components/sidebar.html' %}
+{% block content %}
+<section class="welcome-box">
+    <h1>Welcome {{ user.username }}</h1>
+    <p>Start creating your dream room with SNS Roomify</p>
+</section>
 
-        <main class="main-content">
+<section class="create-section">
+    <h2>Create Your Own Room</h2>
+    <p>Choose the room you want to design</p>
 
-            <div class="top-bar">
-                <h1>User Panel</h1>
-                <div class="user-menu">
-                    <i class="fas fa-user-circle"></i>
-                    <span>{{ user.username }}</span>
-                </div>
-            </div>
+    <div class="room-grid">
+        <div class="room-card bedroom">
+            <img class="room-card-image" src="{{ url_for('static', filename='images/bed.png') }}" alt="Bedroom">
+            <h3>Bedroom</h3>
+            <button onclick="window.location.href='/new-room/bedroom'">Create</button>
+        </div>
 
-            <div class="page-content">
-                <section class="welcome-box">
-                    <h1>Welcome {{ user.username }}</h1>
-                    <p>Start creating your dream room with SNS Roomify</p>
-                </section>
+        <div class="room-card bathroom">
+            <img class="room-card-image" src="{{ url_for('static', filename='images/bathroom.png') }}" alt="Bathroom">
+            <h3>Bathroom</h3>
+            <button onclick="window.location.href='/new-room/bathroom'">Create</button>
+        </div>
 
-                <section class="create-section">
-                    <h2>Create Your Own Room</h2>
-                    <p>Choose the room you want to design</p>
+        <div class="room-card living">
+            <img class="room-card-image" src="{{ url_for('static', filename='images/living-room.png') }}" alt="Living Room">
+            <h3>Living Room</h3>
+            <button onclick="window.location.href='/new-room/living-room'">Create</button>
+        </div>
 
-                    <div class="room-grid">
-                        <div class="room-card bedroom">
-                            <img class="room-card-image" src="{{ url_for('static', filename='images/bed.png') }}"
-                                alt="Bedroom">
-                            <h3>Bedroom</h3>
-                            <button onclick="window.location.href='/new-room/bedroom'">Create</button>
-                        </div>
-
-                        <div class="room-card bathroom">
-                            <img class="room-card-image" src="{{ url_for('static', filename='images/bathroom.png') }}"
-                                alt="Bathroom">
-                            <h3>Bathroom</h3>
-                            <button onclick="window.location.href='/new-room/bathroom'">Create</button>
-                        </div>
-
-                        <div class="room-card living">
-                            <img class="room-card-image"
-                                src="{{ url_for('static', filename='images/living-room.png') }}" alt="Living Room">
-                            <h3>Living Room</h3>
-                            <button onclick="window.location.href='/new-room/living-room'">Create</button>
-                        </div>
-
-                        <div class="room-card kitchen">
-                            <img class="room-card-image" src="{{ url_for('static', filename='images/kitchen.png') }}"
-                                alt="Kitchen">
-                            <h3>Kitchen</h3>
-                            <button onclick="window.location.href='/new-room/kitchen'">Create</button>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </main>
+        <div class="room-card kitchen">
+            <img class="room-card-image" src="{{ url_for('static', filename='images/kitchen.png') }}" alt="Kitchen">
+            <h3>Kitchen</h3>
+            <button onclick="window.location.href='/new-room/kitchen'">Create</button>
+        </div>
     </div>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="toast"></div>
-
-    <script src="{{ url_for('static', filename='js/user-dashboard.js') }}"></script>
-
-</body>
-
-</html>
+</section>
+{% endblock %}

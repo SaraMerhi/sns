@@ -5,7 +5,6 @@ const furnitureList = document.querySelector("#furnitureList");
 const roomBox = document.querySelector("#roomBox");
 const clearBtn = document.querySelector("#clearBtn");
 const saveBtn = document.querySelector("#saveBtn");
-const nextBtn = document.querySelector("#nextBtn");
 
 const topWall = document.querySelector("#topWall");
 const leftWall = document.querySelector("#leftWall");
@@ -475,44 +474,43 @@ function collectRoomData() {
     };
 }
 
-function showToast(message) {
-    const toast = document.getElementById('toast');
-    if (toast) {
-        toast.textContent = message;
-        toast.style.display = 'block';
-        setTimeout(() => {
-            toast.style.display = 'none';
-        }, 3000);
-    }
-}
-
-function saveRoomToDatabase(goNext) {
+function saveRoomToDatabase() {
     const roomData = collectRoomData();
     const roomTitle = roomTitleInput.value.trim() || "Untitled Room";
+
+    const payload = {
+        room_id: roomId,
+        room_data: roomData,
+        room_title: roomTitle
+    };
+
+    if (roomId === 0) {
+        payload.room_name = roomType;
+    }
 
     fetch("/save-room-data", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            room_id: roomId,
-            room_data: roomData,
-            room_title: roomTitle
-        })
+        body: JSON.stringify(payload)
     })
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
             if (data.success) {
-                if (goNext) {
-                    window.location.href = "/room-complete/" + roomId;
-                } else {
-                    showToast("Room saved successfully!");
+                if (data.room_id) {
+                    roomId = data.room_id;
                 }
+                
+                showToast("Room saved successfully!", "success");
+                
+                setTimeout(() => {
+                    window.location.href = "/room-complete/" + roomId;
+                }, 1000);
             } else {
-                showToast(data.message);
+                showToast(data.message, "error");
             }
         });
 }
@@ -524,6 +522,10 @@ roomTitleInput.addEventListener("input", function () {
 });
 
 function loadSavedRoom() {
+    if (roomId === 0) {
+        return;
+    }
+    
     fetch("/get-room-data/" + roomId)
         .then(function (response) {
             return response.json();
@@ -537,7 +539,6 @@ function loadSavedRoom() {
             let furniture = [];
             let colors = null;
 
-            // Handle both old array format and new object format
             if (Array.isArray(data.room_data)) {
                 furniture = data.room_data;
             } else {
@@ -545,7 +546,6 @@ function loadSavedRoom() {
                 colors = data.room_data.colors;
             }
 
-            // Restore furniture
             for (let i = 0; i < furniture.length; i++) {
                 const item = furniture[i];
                 addFurnitureToRoom(item.image, item.name, item);
@@ -606,12 +606,9 @@ clearBtn.addEventListener("click", function () {
 });
 
 saveBtn.addEventListener("click", function () {
-    saveRoomToDatabase(false);
+    saveRoomToDatabase();
 });
 
-nextBtn.addEventListener("click", function () {
-    saveRoomToDatabase(true);
-});
 
 roomBox.addEventListener("click", function () {
     const allWrappers = document.querySelectorAll(".placed-item-wrapper");

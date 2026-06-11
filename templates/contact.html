@@ -4,15 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact Us - SNS Roomify</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/dashboard-layout.css" />
     <link rel="stylesheet" href="/static/css/contact.css" />
-  </head>
-  <body>
+    </head>
+    <body>
+    <div id="toast" class="toast">
+        <i class="fas fa-info-circle toast-icon"></i>
+        <span class="toast-message"></span>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script id="flash-messages-data" type="application/json">
+                {{ messages | tojson }}
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <script src="/static/js/toast.js"></script>
+
     <div class="contact-container">
+      <a href="/" class="back-btn" title="Back to Home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back</span>
+      </a>
       <div class="contact-form">
         <h1>Contact Us</h1>
         <form action="/submit-contact" method="POST">
           <input type="text" name="name" placeholder="Full Name" required />
           <input type="email" name="email" placeholder="Email Address" required />
+          <input type="text" name="subject" placeholder="Subject" />
           <textarea name="message" placeholder="Message" required></textarea>
           <button type="submit">Submit</button>
           <div id="errorMessage" class="error-message {% if not error_message %}hidden{% endif %}">{{ error_message or '' }}</div>
@@ -21,31 +46,11 @@
       <div class="social-panel">
         <p>Stay updated with room ideas, design tips, and new features.</p>
         <div class="social-links">
-          <a href="https://www.facebook.com/SNSRoomify" target="_blank" aria-label="Facebook">
-            <img src="/static/images/facebook.png" alt="Facebook" />
-          </a>
-          <a href="https://www.twitter.com/SNSRoomify" target="_blank" aria-label="Twitter">
-            <img src="/static/images/twitter.png" alt="Twitter" />
-          </a>
-          <a href="https://www.instagram.com/SNSRoomify" target="_blank" aria-label="Instagram">
-            <img src="/static/images/instagram.png" alt="Instagram" />
-          </a>
+          <a href="https://www.facebook.com/SNSRoomify" target="_blank" aria-label="Facebook"><img src="/static/images/facebook.png" alt="Facebook" /></a>
+          <a href="https://www.twitter.com/SNSRoomify" target="_blank" aria-label="Twitter"><img src="/static/images/twitter.png" alt="Twitter" /></a>
+          <a href="https://www.instagram.com/SNSRoomify" target="_blank" aria-label="Instagram"><img src="/static/images/instagram.png" alt="Instagram" /></a>
         </div>
       </div>
     </div>
-    <div id="toast" class="toast hidden">{{ success_message or '' }}</div>
-
-    <script>
-      const toast = document.getElementById('toast');
-      const successMessage = {{ success_message|tojson }};
-
-      if (successMessage) {
-        toast.textContent = successMessage;
-        toast.classList.remove('hidden');
-        toast.classList.add('show');
-
-        setTimeout(() => {
-          window.location.href = '/';
-        }, 2500);
-      }
-    </script>
+  </body>
+</html>

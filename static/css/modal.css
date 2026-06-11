@@ -1,0 +1,119 @@
+@import "variables.css";
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: var(--color-bg-dark);
+    margin: 10% auto;
+    padding: 2rem;
+    border: 1px solid var(--color-primary);
+    width: 50%;
+    border-radius: 1rem;
+    position: relative;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.close-modal {
+    position: absolute;
+    right: 1.5rem;
+    top: 1rem;
+    color: var(--color-primary);
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.modal-room-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(232, 176, 7, 0.1);
+}
+
+.modal-room-item:last-child {
+    border-bottom: none;
+}
+
+.view-room-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.view-room-link:hover {
+    text-decoration: underline;
+}
+
+.confirm-modal-content {
+    width: 400px;
+    text-align: center;
+}
+
+.confirm-modal-content p,
+.confirm-modal-content [data-modal-message] {
+    color: var(--color-text-muted);
+}
+
+.modal-title {
+    margin-bottom: 1rem;
+}
+
+.modal-title-danger {
+    color: var(--color-error);
+}
+
+.modal-title-primary {
+    color: var(--color-primary);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.leave-btn,
+.confirm-btn,
+.cancel-btn {
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.confirm-btn-danger {
+    background: var(--color-error);
+    color: var(--color-text-light);
+}
+
+.confirm-btn-primary {
+    background: var(--color-primary);
+    color: var(--color-bg-dark);
+}
+
+.confirm-btn-primary:hover {
+    background: var(--color-primary-dark);
+}
+
+.cancel-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-text-light);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
