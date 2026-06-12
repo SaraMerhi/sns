@@ -157,8 +157,13 @@ def signup():
             )
             db.session.add(new_user)
             db.session.commit()
+            
+            # Log the user in after successful signup
+            login_user(new_user)
             session["user_id"] = new_user.id
             session["username"] = new_user.username
+            session["is_admin"] = new_user.is_admin
+            
             return redirect("/user-dashboard")
 
     return render_template("signup.html", error_message=error_message)
