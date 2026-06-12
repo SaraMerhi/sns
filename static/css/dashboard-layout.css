@@ -251,7 +251,7 @@ body {
     align-items: center;
     gap: 0.75rem;
     font-weight: 500;
-    transform: translateX(120%);
+    transform: translateX(150%);
     transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     border-left: 6px solid var(--color-primary);
 }

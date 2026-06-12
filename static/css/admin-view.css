@@ -1,0 +1,51 @@
+@import "variables.css";
+
+body {
+    overflow: auto !important;
+}
+
+.editor-page.admin-view {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh;
+    background: var(--color-bg-dark);
+}
+
+.design-area {
+    flex: 1 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.room-wrapper {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 4rem 2rem !important;
+    min-height: 700px;
+}
+
+.room {
+    margin: 0 auto !important;
+    box-shadow: 0 50px 100px rgba(0,0,0,0.5) !important;
+}
+
+.placed-item-wrapper.active {
+    outline: none !important;
+}
+
+.furniture-controls {
+    display: none !important;
+}
+
+/* Override create-room.css hiding tools */
+.editor-page.admin-view .tools {
+    display: flex !important;
+}
+
+.editor-page.admin-view .editor-top {
+    display: flex !important;
+}

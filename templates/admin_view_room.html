@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View {{ room_title }} | SNS Roomify Admin</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/create-room.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-view.css') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="editor-page admin-view" data-room="{{ room_name }}" data-id="{{ room_id }}" data-view-only="true">
+      <main class="design-area">
+        <div class="editor-top">
+          <h1>Viewing {{ room_title }}</h1>
+
+          <div class="tools">
+            <button onclick="window.location.href='/admin-user-rooms/{{ user_id }}'" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 0.6rem 1.2rem; border-radius: 0.6rem; cursor: pointer;"><i class="fas fa-arrow-left"></i> Back</button>
+          </div>
+        </div>
+
+        <div class="room-wrapper">
+          <div class="room" id="roomBox">
+            <div class="wall wall-top" id="topWall"></div>
+            <div class="wall wall-left" id="leftWall"></div>
+            <div class="wall wall-right" id="rightWall"></div>
+            <div class="wall wall-bottom" id="bottomWall"></div>
+
+            <div class="floor" id="floorArea"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+    let roomId = {{ room_id }};
+    </script>
+
+    <script src="{{ url_for('static', filename='js/create-room.js') }}"></script>
+  </body>
+</html>

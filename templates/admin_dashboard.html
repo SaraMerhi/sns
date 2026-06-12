@@ -28,9 +28,12 @@
                 <p>{{ user.email }}</p>
             </div>
 
-            {% if user.is_admin != 1 %}
-            <button type="button" class="delete-btn" onclick="confirmDeleteUser('/delete-user/{{ user.id }}', '{{ user.username }}')">Delete</button>
-            {% endif %}
+            <div class="user-actions" style="display: flex; gap: 0.5rem;">
+                <button type="button" class="view-btn" onclick="window.location.href='/admin-user-rooms/{{ user.id }}'">View Rooms</button>
+                {% if user.is_admin != 1 %}
+                <button type="button" class="delete-btn" onclick="confirmDeleteUser('/delete-user/{{ user.id }}', '{{ user.username }}')">Delete</button>
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
     </div>

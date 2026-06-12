@@ -1,0 +1,46 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}User Rooms | SNS Roomify{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/user-dashboard.css') }}">
+{% endblock %}
+
+{% block page_heading %}{{ target_user.username }}'s Saved Rooms{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem;">
+    <a href="/admin-dashboard" style="color: #e8b007; text-decoration: none;"><i class="fas fa-arrow-left"></i> Back to Users</a>
+</div>
+
+{% if rooms %}
+<div class="room-grid">
+    {% for room in rooms %}
+    <div class="room-card">
+        {% if room.room_name == 'bedroom' %}
+            <img src="{{ url_for('static', filename='images/bed.png') }}" alt="Bedroom" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+        {% elif room.room_name == 'livingroom' or room.room_name == 'living-room' %}
+            <img src="{{ url_for('static', filename='images/living-room.png') }}" alt="Living Room" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+        {% elif room.room_name == 'kitchen' %}
+            <img src="{{ url_for('static', filename='images/kitchen.png') }}" alt="Kitchen" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+        {% elif room.room_name == 'bathroom' %}
+            <img src="{{ url_for('static', filename='images/bathroom.png') }}" alt="Bathroom" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+        {% else %}
+            <img src="{{ url_for('static', filename='images/living-room.png') }}" alt="Room Image" style="width: 100px; height: 100px; margin-bottom: 1rem; object-fit: contain;">
+        {% endif %}
+        <h3>{{ room.room_title }}</h3>
+        <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 1.5rem;">Saved {{ room.room_name }} design</p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <button onclick="window.location.href='/admin-view-room/{{ room.id }}'">View Room</button>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="profile-section" style="background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.2); padding: 5rem 2rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+    <div style="font-size: 5rem; margin-bottom: 1.5rem; opacity: 0.5;">🏡</div>
+    <h2>No Saved Rooms</h2>
+    <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 2rem;">This user hasn't saved any rooms yet.</p>
+</div>
+{% endif %}
+{% endblock %}

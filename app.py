@@ -292,6 +292,10 @@ def get_room_data(room_id):
 @app.route("/admin-users")
 @login_required
 def admin_dashboard():
+    if int(current_user.is_admin) != 1:
+        flash("Access denied", "error")
+        return redirect(url_for("user_dashboard"))
+
     users = User.query.filter(User.is_admin != 1).all()
 
     return render_template(
@@ -300,6 +304,57 @@ def admin_dashboard():
         users=users,
         active_page="admin_users",
     )
+
+
+@app.route("/admin-user-rooms/<int:user_id>")
+@login_required
+def admin_user_rooms(user_id):
+    if int(current_user.is_admin) != 1:
+        flash("Access denied", "error")
+        return redirect(url_for("user_dashboard"))
+
+    user = User.query.get_or_404(user_id)
+    rooms = Room.query.filter_by(user_id=user_id).all()
+
+    return render_template(
+        "admin_user_rooms.html",
+        user=current_user,
+        target_user=user,
+        rooms=rooms,
+        active_page="admin_users",
+    )
+
+
+@app.route("/admin-view-room/<int:room_id>")
+@login_required
+def admin_view_room(room_id):
+    if int(current_user.is_admin) != 1:
+        flash("Access denied", "error")
+        return redirect(url_for("user_dashboard"))
+
+    room = Room.query.get_or_404(room_id)
+
+    return render_template(
+        "admin_view_room.html",
+        room_id=room.id,
+        room_name=room.room_name,
+        room_title=room.room_title,
+        user_id=room.user_id,
+    )
+
+
+@app.route("/get-room-data-admin/<int:room_id>")
+@login_required
+def get_room_data_admin(room_id):
+    if int(current_user.is_admin) != 1:
+        return jsonify({"success": False, "message": "Access denied"})
+
+    room = Room.query.get(room_id)
+
+    if not room:
+        return jsonify({"success": False, "message": "Room not found"})
+
+    return jsonify({"success": True, "room_data": json.loads(room.room_data or "[]")})
 
 
 @app.route("/admin-contact-messages")
